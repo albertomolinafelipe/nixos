@@ -1,4 +1,4 @@
-
+ 
 { config, pkgs, inputs, ... }:
 
 {
@@ -45,7 +45,13 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.enable = false;
+  services.xserver.windowManager.dwm.enable = true;
+  nixpkgs.overlays = [
+    (final: prev: {
+      dwm = prev.dwm.overrideAttrs (old: {src = ./configs/dwm;});
+    })
+  ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -94,10 +100,13 @@
 	neovim
 	firefox
 	obsidian
+	dwm
+	dmenu
 
 	home-manager
 	signal-desktop
 	keepassxc
+	tree
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
