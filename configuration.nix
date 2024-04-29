@@ -1,9 +1,9 @@
  
 { config, pkgs, inputs, ... }:
-
 {
   imports = [
       ./hardware-configuration.nix
+      ./modules/slstatus.nix
       inputs.home-manager.nixosModules.home-manager
     ];
   
@@ -41,11 +41,17 @@
 
 
   # Desktop
-  services.xserver.enable = true;
-  services.xserver.dpi = 180;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = false;
-  services.xserver.windowManager.dwm.enable = true;
+  services.xserver = {
+    enable = true;
+    dpi = 180;
+    displayManager.gdm.enable = true;
+    displayManager.sessionCommands = ''
+      ${pkgs.feh}/bin/feh --bg-fill ./themes/nixos_dark.png
+    '';
+    desktopManager.gnome.enable = false;
+    windowManager.dwm.enable = true;
+  };
+
   nixpkgs.overlays = [
     (final: prev: {
       dwm = prev.dwm.overrideAttrs (old: {src = ./configs/dwm;});
@@ -93,19 +99,17 @@
     (nerdfonts.override { fonts = [ "Hack" "Gohu" ]; })
   ];
 
+  services.slstatus.enable = true;
   environment.systemPackages = with pkgs; [
   	git
 	neofetch
+	wirelesstools
 	alacritty
 	neovim
 	firefox
 	obsidian
 	dwm
 	dmenu
-	slstatus
-    	(slstatus.overrideAttrs (oldAttrs: rec {
-      	  patches = [./configs/slstatus-config.patch];
-	}))
 
 	home-manager
 	signal-desktop
