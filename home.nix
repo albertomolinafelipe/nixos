@@ -44,17 +44,25 @@
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
+    syntaxHighlighting = {
+      enable = true;
+    };
 
-  shellAliases = {
-    ll = "ls -l";
-    l="eza -l --icons --git --sort=Extension";
-    v="nvim";
-    q="exit";
-    cd = "z";
-    update = "sudo nixos-rebuild switch --flake ~/nixos/#nixos-config";
-  };
-    history.size = 10000;
+    shellAliases = {
+      ll = "ls -l";
+      l = "eza -l --icons --git --sort=Extension";
+      v = "nvim";
+      q = "exit";
+      cd = "z";
+      update = "sudo nixos-rebuild switch --flake ~/nixos/#nixos-config";
+    };
+
+    history = {
+      size = 10000;
+    };
+    initExtra = ''
+      PROMPT='%F{#E6C384}[%F{#7FB4CA}%n%F{none}@%F{blue}nixos%F{none}: %F{#FFA066}%B%~%b%F{#E6C384}] %B>%b%F{none} '
+    '';
   };
 
   programs.zoxide = {
@@ -66,9 +74,6 @@
     enable = true;
     userName = "albertomolinfelipe";
     userEmail = "albmf@protonmail.com";
-    aliases = {
-      gs = "status";
-    };
   };
   programs.alacritty = {
     enable = true;
@@ -81,29 +86,29 @@
       };
       colors = {
         primary = {
-          background = "#1d2021";
-          foreground = "#a89984";
+          background = "#181820"; # sumInk1
+          foreground = "#DCD7BA"; # fujiWhite
         };
-        normal = {
-          black   = "#1d2021";
-          red     = "#fb4934";
-          green   = "#b8bb26";
-          yellow  = "#fabd2f";
-          blue    = "#83a598";
-          magenta = "#d3869b";
-          cyan    = "#8ec07c";
-          white   = "#a89984";
-        };
-        bright = {
-          black   = "#928374";
-          red     = "#fb4934";
-          green   = "#b8bb26";
-          yellow  = "#fabd2f";
-          blue    = "#83a598";
-          magenta = "#d3869b";
-          cyan    = "#8ec07c";
-          white   = "#ebdbb2";
-        };
+	normal = {
+	  black   = "#16161D";  # sumiInk0
+	  red     = "#C34043";  # autumnRed
+	  green   = "#76946A";  # autumnGreen
+	  yellow  = "#C0A36E";  # boatYellow2
+	  blue    = "#7E9CD8";  # crystalBlue
+	  magenta = "#957FB8";  # oniViolet
+	  cyan    = "#6A9589";  # waveAqua1
+	  white   = "#C8C093";  # oldWhite
+	};
+	bright = {
+	  black   = "#727169";  # fujiGray
+	  red     = "#E82424";  # samuraiRed
+	  green   = "#98BB6C";  # springGreen
+	  yellow  = "#E6C384";  # carpYellow
+	  blue    = "#7FB4CA";  # springBlue
+	  magenta = "#938AA9";  # springViolet1
+	  cyan    = "#7AA89F";  # waveAquea2
+	  white   = "#DCD7BA";  # fujiWhite
+	};
       };
     };
   };
