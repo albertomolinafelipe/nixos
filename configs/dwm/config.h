@@ -67,8 +67,7 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *browsercmd[]  = {"firefox", NULL};
 static const char *obsidiancmd[]  = {"obsidian", NULL};
 static const char *signalcmd[]  = {"signal-desktop", NULL};
-static const char *screenshotcmd[] = { "/bin/sh", "-c", "timestamp=$(date +%Y-%m-%d-%T) && import png:- | convert - -resize 200% ~/Desktop/Screenshots/${timestamp}.png && xclip -selection clipboard -target image/png -i ~/Desktop/Screenshots/${timestamp}.png", NULL };
-
+static const char *screenshotcmd[] = {"flameshot", "gui", NULL};
 
 
 // Volumes

@@ -7,12 +7,8 @@
 
   config = lib.mkIf config.services.slstatus.enable {
     environment.systemPackages = [ (pkgs.slstatus.overrideAttrs (oldAttrs: {
-      patches = oldAttrs.patches ++ [ ./configs/slstatus-config.patch ];
+      patches = oldAttrs.patches ++ [ ../configs/slstatus-config.patch ];
     })) ];
-    services.xserver.displayManager.sessionCommands = ''
-      # Start the customized slstatus
-      ${pkgs.slstatus}/bin/slstatus &
-    '';
   };
 }
 

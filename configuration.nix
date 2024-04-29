@@ -47,6 +47,7 @@
     displayManager.gdm.enable = true;
     displayManager.sessionCommands = ''
       ${pkgs.feh}/bin/feh --bg-fill ./themes/nixos_dark.png
+      slstatus &
     '';
     desktopManager.gnome.enable = false;
     windowManager.dwm.enable = true;
@@ -103,6 +104,10 @@
   environment.systemPackages = with pkgs; [
   	git
 	neofetch
+	flameshot
+	xclip
+	eza
+	zoxide
 	wirelesstools
 	alacritty
 	neovim
@@ -116,7 +121,6 @@
 	keepassxc
 	tree
 	zsh
-
 	feh
   ];
 
