@@ -1,0 +1,304 @@
+     /* This Theme is called "Wasp" and Obsidian Theme created by Santi Younger */
+
+     /* Last Update:
+2021-07-27 14:48
+     */
+
+     :root
+     
+
+     .theme-dark
+     {
+     
+         --sumiInk0      : #16161D;
+    --sumiInk1b     : #181820;
+    --sumiInk1      : #1F1F28;
+    --sumiInk2      : #2A2A37;
+    --sumiInk3      : #363646;
+    --sumiInk4      : #54546D;
+
+    /* Popup and Floats*/
+    --waveBlue1     : #223249;
+    --waveBlue2     : #2D4F67;
+
+    /* Diff and Git*/
+    --winterGreen   : #2B3328;
+    --winterYellow  : #49443C;
+    --winterRed     : #43242B;
+    --winterBlue    : #252535;
+    --autumnGreen   : #76946A;
+    --autumnRed     : #C34043;
+    --autumnYellow  : #DCA561;
+
+    /* Diag*/
+    --samuraiRed    : #E82424;
+    --roninYellow   : #FF9E3B;
+    --waveAqua1     : #6A9589;
+    --dragonBlue    : #658594;
+
+    /* Fg and Comments*/
+    --oldWhite      : #C8C093;
+    --fujiWhite     : #DCD7BA;
+    --fujiGray      : #727169;
+    --springViolet1 : #938AA9;
+
+    --oniViolet     : #957FB8;
+    --crystalBlue   : #7E9CD8;
+    --springViolet2 : #9CABCA;
+    --springBlue    : #7FB4CA;
+    --lightBlue     : #A3D4D5; /* unused yet*/
+    --waveAqua2     : #7AA89F; /* improve lightness: desaturated greenish Aqua*/
+
+    --springGreen   : #98BB6C;
+    --boatYellow1   : #938056;
+    --boatYellow2   : #C0A36E;
+    --carpYellow    : #E6C384;
+
+    --sakuraPink    : #D27E99;
+    --waveRed       : #E46876;
+    --peachRed      : #FF5D62;
+    --surimiOrange  : #FFA066;
+    --katanaGray    : #717C7C;
+     
+    --customOrange  : #F99E66;
+    --customBold    : #E1BF82;
+
+     
+    --background-primary:         var(--sumiInk1);
+    --background-primary-alt:     var(--sumiInk1);
+    --background-secondary:       var(--sumiInk1b);
+    --background-secondary-alt:   var(--sumiInk2);
+    --text-normal:                var(--fujiWhite);
+    --text-faint:                 var(--fujiGray);
+    --text-title-h1:              var(--peachRed);
+    --text-title-h2:              var(--customOrange);
+    --text-title-h3:              var(--carpYellow);
+    --text-title-h4:              var(--carpYellow);
+    --text-title-h5:              var(--carpYellow);
+    --text-title-h6:              var(--carpYellow);
+    
+     --text-highlight-bg:          var(--waveBlue1);
+     --text-link:                  var(--springBlue); 
+     --text-a-hover:               var(--peachRed);
+         --text-accent-hover:      var(--crystalBlue);
+--text-mark:                  rgba(34, 50, 73, 0.4); /* waveBlue1 */
+    --pre-code:                   var(--sumiInk0);
+    --text-highlight-bg:          var(--waveBlue1);
+    --interactive-accent:         var(--dragonBlue); /* vim cursor background AND highilight on right*/
+    --interactive-before:         var(--sumiInk4);
+    --background-modifier-border: var(--dragonBlue);
+    
+    --text-accent:                var(--springBlue);
+    --interactive-accent-rgb:     var(--dragonBlue);
+    
+    --inline-code:                var(--springGreen);
+    --code-block:                 var(--fujiGray);
+    --vim-cursor-backgroung:      var(--fujiWhite);
+    --vim-cursor-color:           var(--sumiInk1);
+    --text-selection:             rgba(34, 50, 73, 0.5); /* waveBlue1 */
+    --text-tag:                   var(--springViolet1);
+    --task-checkbox:              var(--sumiInk4);
+    --table-header:               hsl(0, 0%, 14%);
+    --table-row-even:             hsl(0, 0%, 17%);
+    --table-row-odd:              hsl(0, 0%, 20%);
+    --table-hover:                var(--sumiInk2);
+     }x	
+
+      .theme-dark .cm-s-obsidian span.obsidian-search-match-highlight {
+      color: var(--text-normal);
+      background-color: #483699;
+      }
+
+     .theme-light
+     {
+         --background-primary:         #EDEDED;
+         --background-secondary:       #C4C4C4;
+          /* thick menu border */
+         --background-primary-alt:     #;
+         --background-secondary-alt:   #707070; /* ← ↓  corner */
+         --text-normal:                #1A2023;
+         --text-faint:                 #DEDEDE;
+         --text-title-h1:              #D49335;
+         --text-title-h2:              #D49335;
+         --text-title-h3:              #D49335;
+         --text-title-h4:              #D49335;
+         --text-title-h5:              #D49335;
+         --text-link:                  #D49335;
+         --text-a-hover:               #D49335;
+         --text-accent-hover:          #D49335;
+/* ^^^ added for hover over bracket internal links */
+         --inline-code:                #458588;
+         /*  --text-mark:                  add if needed */
+         --pre-code:                   #bebebe;
+         /*  --text-highlight-bg:          add if needed */
+         --interactive-before:         #a89984;
+         --background-modifier-border: #D49335;
+         --text-a:                     #961327;
+         --interactive-accent:         #f8c537;
+         --text-accent:                #961327;
+         --interactive-accent-rgb:     #961327;
+         --vim-cursor:                 #961327;
+         --text-selection:             #EDC180;
+         --text-white:                 #ffffff;
+     }
+
+.nav-file-title, .nav-folder-title {
+    color: var(--text-normal);
+}
+
+.nav-file-title.is-active, .nav-folder-title.is-active, body:not(.is-grabbing) .nav-file-title:hover, body:not(.is-grabbing) .nav-folder-title:hover {
+    background-color: var(--background-modifier-border);
+    color: white;
+}
+
+.cm-s-obsidian span.cm-formatting-link {
+    color: var(--text-normal);
+}
+.cm-strong,
+strong {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 0;
+  color: var(--carpYellow);
+  background-color: var(--customBold);
+}
+.CodeMirror-guttermarker-subtle {
+    color: var(--text-normal) !important;
+}
+
+button.mod-cta {
+    background-color: var(--interactive-accent);
+    color: var(--text-normal);
+}
+
+.vertical-tab-header-group-title {
+    color: var(--text-white);
+}
+
+      .cm-header-1 {
+      font-size: 18px;
+      color: var(--text-title-h1) !important;
+      }
+
+      .cm-header-2 {
+      font-size: 18px;
+      color: var(--text-title-h2) !important;
+      }
+
+      .cm-header-3 {
+      font-size: 18px;
+      color: var(--text-title-h3) !important;
+      }
+
+      .cm-header-4 {
+      font-size: 18px;
+      color: var(--text-title-h4) !important;
+      }
+
+      .cm-header-5 {
+      font-size: 18px;
+      color: var(--text-title-h5) !important;
+      }
+
+      .cm-header-6 {
+      font-size: 18px;
+      color: --text-normal;
+      color: var(--text-title-h6) !important;
+      }
+
+      .markdown-preview-view h1 {
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--text-title-h1) !important;
+      }
+
+      .markdown-preview-view h2 {
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--text-title-h2) !important;
+      }
+
+      .markdown-preview-view h3 {
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--text-title-h3) !important;
+      }
+
+      .markdown-preview-view h4 {
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--text-title-h4) !important;
+      }
+
+      .markdown-preview-view h5 {
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--text-title-h5) !important;
+      }
+
+      .markdown-preview-view h6 {
+      font-size: 20px;
+      line-height: 24px;
+      color: --text-normal;
+      color: var(--text-title-h6) !important;
+      }
+
+      /*-----------------------------------------*/
+      /* End of main theme, extra functionality can be added below */
+
+      .markdown-source-view { font-family: var(--font-monospace)
+      }
+
+     .cm-fat-cursor .CodeMirror-cursor {
+     background-color: #f8c537 !important;
+     opacity: 80% !important;
+     width: 9px !important; 
+     visibility: visible !important
+     }
+
+.plugin-tabs .stayopen .view-header {
+border-bottom: 2px solid var(--interactive-accent)!important;
+}
+
+.plugin-tabs .mod-root.workspace-split.mod-vertical div.workspace-leaf:not(.stayopen) > .workspace-leaf-content > .view-header .view-header-title::before{
+background-color:transparent!important
+}
+
+.plugin-tabs .mod-root.workspace-split.mod-vertical .workspace-split.mod-vertical > div.workspace-leaf:not(.stayopen),
+.plugin-tabs .mod-root.workspace-split.mod-vertical > div.workspace-leaf:not(.stayopen){
+border-radius: 5px 5px 0px 0px!important;
+}
+
+.plugin-tabs .mod-root.workspace-split.mod-vertical div.workspace-leaf{
+border-color: var(--background-secondary-alt)!important;
+border-bottom-width: 0px!important;
+border-right-width: 0px!important
+}
+
+.theme-light.plugin-tabs  .mod-root.workspace-split.mod-vertical div.workspace-leaf{
+border-color: var(--background-secondary-alt)!important;
+border-left-width:3px!important;
+border-bottom-width: 0px!important;
+border-right-width: 0px!important
+}
+
+.plugin-tabs .mod-root.workspace-split.mod-vertical > div.workspace-leaf hr.workspace-leaf-resize-handle,
+.plugin-tabs .mod-root.workspace-split.mod-vertical > .mod-vertical hr.workspace-leaf-resize-handle{
+display: none;
+}
+
+
+.plugin-tabs .mod-root.workspace-split.mod-vertical div.workspace-leaf .view-header{
+border-left-color: var(--sumiInk0)!important
+}
+
+.plugin-tabs .workspace-split.mod-root > .workspace-leaf:last-of-type .workspace-leaf-content,
+.plugin-tabs .workspace-split.mod-root > .workspace-leaf:first-of-type .workspace-leaf-content {
+    border-radius: 0px!important;
+}
+
+.plugin-tabs .theme-dark .mod-root.workspace-split.mod-vertical .workspace-split.mod-vertical > div.workspace-leaf.mod-active,
+.plugin-tabs .theme-dark .mod-root.workspace-split.mod-vertical > div.workspace-leaf.mod-active {
+border: 0!important;
+border-radius: 0px 0px 0px 0px!important;
+}

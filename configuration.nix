@@ -39,17 +39,19 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable the X11 windowing system.
+
+  # Desktop
   services.xserver.enable = true;
   services.xserver.dpi = 180;
-
-  # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = false;
   services.xserver.windowManager.dwm.enable = true;
   nixpkgs.overlays = [
     (final: prev: {
       dwm = prev.dwm.overrideAttrs (old: {src = ./configs/dwm;});
+    })
+    (final: prev: {
+      slstatus = prev.slstatus.overrideAttrs (old: { src = ./configs/slstatus ;});
     })
   ];
 
@@ -59,10 +61,7 @@
     variant = "";
   };
 
-  # Configure console keymap
   console.keyMap = "es";
-
-  # Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Enable sound with pipewire.
@@ -82,7 +81,9 @@
     description = "alberto";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
+    shell = pkgs.zsh;
   };
+  programs.zsh.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -90,9 +91,9 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "Hack" "Gohu" ]; })
+  ];
   environment.systemPackages = with pkgs; [
   	git
 	neofetch
@@ -102,11 +103,15 @@
 	obsidian
 	dwm
 	dmenu
+	slstatus
 
 	home-manager
 	signal-desktop
 	keepassxc
 	tree
+	zsh
+
+	feh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
