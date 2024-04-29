@@ -1,0 +1,20 @@
+diff --git a/config.def.h b/config.def.h
+--- a/config.def.h	2024-04-29 09:30:24.037802841 -0400
++++ b/config.def.h	2024-04-29 09:31:04.935749712 -0400
+@@ -65,5 +65,15 @@
+  */
+ static const struct arg args[] = {
+ 	/* function format          argument */
+-	{ datetime, "%s",           "%F %T" },
++	{ cpu_perc, " cpu  %s%% |", NULL    },
++	{ ram_perc, " ram %s%% |", NULL    },
++	{ wifi_essid, " %s", "wlo1"    },
++    { run_command, " %s |", "strength=$(iwconfig wlo1 | grep 'Link Quality=' | awk -F'=' '{print int(($2/70)*100)}'); if [ $strength -le 25 ]; then echo 󰤟; elif [ $strength -le 50 ]; then echo 󰤢; elif [ $strength -le 75 ]; then echo 󰤥; else echo 󰤨; fi" },
++
++    { run_command, " vol %s |", "vol=$(amixer sget Master | grep -Eo '[0-9]+%' | head -n1 | tr -d '%'); [ $vol -eq 0 ] && echo 󰖁 || ([ $vol -lt 25 ] && echo 󰕿 || ([ $vol -le 75 ] && echo 󰖀 || echo 󰕾))" },
++
++    { run_command, " bat %s ", "perc=$(cat /sys/class/power_supply/BAT1/capacity); if [ $perc -le 25 ]; then echo ${perc}% 󰁻; elif [ $perc -le 50 ]; then echo ${perc}% 󰁾; elif [ $perc -le 75 ]; then echo ${perc}% 󰂀; elif [ $perc -le 95 ]; then echo ${perc}% 󰂂; else echo ${perc}% 󰂄; fi" },
++
++    { run_command, "%s |", "status=$(cat /sys/class/power_supply/BAT1/status); if [ \"$status\" = \"Charging\" ]; then echo 󱐋; else echo 󰚦; fi" },
++	{ datetime,  " %s ", "%F %a %H:%M" },
+ };

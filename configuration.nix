@@ -50,9 +50,6 @@
     (final: prev: {
       dwm = prev.dwm.overrideAttrs (old: {src = ./configs/dwm;});
     })
-    (final: prev: {
-      slstatus = prev.slstatus.overrideAttrs (old: { src = ./configs/slstatus ;});
-    })
   ];
 
   # Configure keymap in X11
@@ -91,9 +88,11 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
+  
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Hack" "Gohu" ]; })
   ];
+
   environment.systemPackages = with pkgs; [
   	git
 	neofetch
@@ -104,6 +103,9 @@
 	dwm
 	dmenu
 	slstatus
+    	(slstatus.overrideAttrs (oldAttrs: rec {
+      	  patches = [./configs/slstatus-config.patch];
+	}))
 
 	home-manager
 	signal-desktop
