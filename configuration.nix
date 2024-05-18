@@ -1,5 +1,4 @@
- 
-{ config, pkgs, inputs, ... }:
+ { config, pkgs, inputs, ... }:
 {
   imports = [
       ./hardware-configuration.nix
@@ -17,7 +16,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos";
-
+  services.udisks2.enable = true;
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -46,8 +45,9 @@
     dpi = 180;
     displayManager.gdm.enable = true;
     displayManager.sessionCommands = ''
-      ${pkgs.feh}/bin/feh --bg-fill ./themes/nixos_dark.png
+      feh --bg-fill ~/nixos/themes/nixos_dark.png
       slstatus &
+      picom &
     '';
     desktopManager.gnome.enable = false;
     windowManager.dwm.enable = true;
@@ -102,26 +102,36 @@
 
   services.slstatus.enable = true;
   environment.systemPackages = with pkgs; [
+  	# Desktop
+	home-manager
   	git
+	alacritty
+	neovim
+	dwm
+	dmenu
+
+	# Personal
+	firefox
+	obsidian
+	signal-desktop
+	keepassxc
+	calibre
+	flowblade
+	
+	# Terminal tools
+	zsh
 	neofetch
+	transmission-qt
+	unzip
+	htop
 	flameshot
 	xclip
 	eza
 	zoxide
 	wirelesstools
-	alacritty
-	neovim
-	firefox
-	obsidian
-	dwm
-	dmenu
-
-	home-manager
-	signal-desktop
-	keepassxc
 	tree
-	zsh
 	feh
+	picom
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

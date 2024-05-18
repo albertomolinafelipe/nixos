@@ -49,7 +49,6 @@
     };
 
     shellAliases = {
-      ll = "ls -l";
       l = "eza -l --icons --git --sort=Extension";
       v = "nvim";
       q = "exit";
@@ -61,7 +60,8 @@
       size = 10000;
     };
     initExtra = ''
-      PROMPT='%F{#E6C384}[%F{#7FB4CA}%n%F{none}@%F{blue}nixos%F{none}: %F{#FFA066}%B%~%b%F{#E6C384}] %B>%b%F{none} '
+      PROMPT='
+      %F{#E6C384}[%F{#7FB4CA}%n%F{none}@%F{blue}nixos%F{none}: %F{#FFA066}%B%~%b%F{#E6C384}] %B>%b%F{none} '
     '';
   };
 
@@ -79,10 +79,12 @@
     enable = true;
     settings = {
       window = {
-        dimensions = {
-          columns = 80;
-          lines = 24;
-        };
+        title  = "alacritty";
+	opacity = 0.85;
+      };
+      font = {
+        normal.family = "HackNerdFont";
+	size = 8.0;
       };
       colors = {
         primary = {
