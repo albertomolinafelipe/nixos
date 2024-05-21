@@ -42,7 +42,7 @@
   # Desktop
   services.xserver = {
     enable = true;
-    dpi = 180;
+    # dpi = 180;
     displayManager.gdm.enable = true;
     displayManager.sessionCommands = ''
       feh --bg-fill ~/nixos/themes/nixos_dark.png
@@ -88,6 +88,7 @@
     shell = pkgs.zsh;
   };
   programs.zsh.enable = true;
+  programs.steam.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -116,7 +117,8 @@
 	signal-desktop
 	keepassxc
 	calibre
-	flowblade
+	steam
+	syncthing
 	
 	# Terminal tools
 	zsh
