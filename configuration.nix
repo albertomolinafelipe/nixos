@@ -63,6 +63,9 @@
   nixpkgs.overlays = [
     (final: prev: {
       dwm = prev.dwm.overrideAttrs (old: {src = ./configs/dwm;});
+      neovim = prev.neovim.overrideAttrs (oldAttrs: rec {
+        config = builtins.path { path = ./configs/nvim/init.lua; };
+      });
     })
   ];
 
@@ -95,7 +98,10 @@
     shell = pkgs.zsh;
   };
   programs.zsh.enable = true;
-  programs.neovim.enable = true;
+  programs.neovim = {
+    enable = true; 
+    defaultEditor = true;
+  };
   programs.steam.enable = true;
 
   # Allow unfree packages

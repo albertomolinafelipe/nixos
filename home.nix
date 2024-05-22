@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{config, pkgs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -36,14 +36,6 @@
     # '';
   };
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
-  prograns.neovim = {
-    enable = true; 
-    defaultEditor = true;
-    extraConfig = lib.fileContents ./configs/nvim/init.lua
-  }
 
   programs.zsh = {
     enable = true;
