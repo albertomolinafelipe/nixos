@@ -21,7 +21,7 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "America/New_York";
+  time.timeZone = "Europe/Madrid";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -45,10 +45,17 @@
     # dpi = 180;
     displayManager.gdm.enable = true;
     displayManager.sessionCommands = ''
+      if xrandr | grep -q "DP-4 connected"; then
+	      xrandr --output eDP-1 --off --output DP-4 --auto --scale 1x1 --transform 1,0,0,0,1,0,0,0,1
+		      echo "Xft.dpi: 96" | xrdb -merge
+      else
+	      xrandr --output DP-4 --off --output eDP-1 --auto --scale 1x1 --transform 1,0,0,0,1,0,0,0,1
+		      echo "Xft.dpi: 192" | xrdb -merge
+      fi
       feh --bg-fill ~/nixos/themes/nixos_dark.png
       slstatus &
       picom &
-    '';
+		      '';
     desktopManager.gnome.enable = false;
     windowManager.dwm.enable = true;
   };
@@ -88,6 +95,7 @@
     shell = pkgs.zsh;
   };
   programs.zsh.enable = true;
+  programs.neovim.enable = true;
   programs.steam.enable = true;
 
   # Allow unfree packages

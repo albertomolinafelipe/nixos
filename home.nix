@@ -39,6 +39,11 @@
   home.sessionVariables = {
     EDITOR = "nvim";
   };
+  prograns.neovim = {
+    enable = true; 
+    defaultEditor = true;
+    extraConfig = lib.fileContents ./configs/nvim/init.lua
+  }
 
   programs.zsh = {
     enable = true;
@@ -84,7 +89,7 @@
       };
       font = {
         normal.family = "HackNerdFont";
-	size = 8.0;
+	size = 12.0;
       };
       colors = {
         primary = {
