@@ -42,6 +42,7 @@
   };
 
 
+  virtualisation.docker.enable = true;
   # Desktop
   services.xserver = {
     enable = true;
@@ -98,7 +99,7 @@
   users.users.alberto = {
     isNormalUser = true;
     description = "alberto";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [ ];
     shell = pkgs.zsh;
   };

@@ -50,7 +50,7 @@
       v = "nvim";
       q = "exit";
       cd = "z";
-      vol = "amixer set Master"
+      vol = "amixer set Master";
       update = "sudo nixos-rebuild switch --flake ~/nixos/#nixos-config";
     };
 
