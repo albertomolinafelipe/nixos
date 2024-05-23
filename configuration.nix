@@ -1,14 +1,14 @@
- { config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, ... }:
 {
   imports = [
-      ./hardware-configuration.nix
-      ./modules/slstatus.nix
-      inputs.home-manager.nixosModules.home-manager
-    ];
-  
+    ./hardware-configuration.nix
+    ./modules/slstatus.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
+
   home-manager = {
-    extraSpecialArgs = {inherit inputs;};
-    users = {alberto = import ./home.nix;};
+    extraSpecialArgs = { inherit inputs; };
+    users = { alberto = import ./home.nix; };
   };
 
   # Bootloader.
@@ -19,6 +19,9 @@
   services.udisks2.enable = true;
   # Enable networking
   networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -46,23 +49,25 @@
     displayManager.gdm.enable = true;
     displayManager.sessionCommands = ''
       if xrandr | grep -q "DP-4 connected"; then
-	      xrandr --output eDP-1 --off --output DP-4 --auto --scale 1x1 --transform 1,0,0,0,1,0,0,0,1
-		      echo "Xft.dpi: 96" | xrdb -merge
+        xrandr --output DP-4 --auto --scale 1x1 --transform 1,0,0,0,1,0,0,0,1 --primary
+        echo "Xft.dpi: 96" | xrdb -merge
+        xrandr --output eDP-1 --off
       else
-	      xrandr --output DP-4 --off --output eDP-1 --auto --scale 1x1 --transform 1,0,0,0,1,0,0,0,1
-		      echo "Xft.dpi: 192" | xrdb -merge
+        xrandr --output eDP-1 --auto --scale 1x1 --transform 1,0,0,0,1,0,0,0,1 --primary
+        # xrandr --output DP-4 --off
+        echo "Xft.dpi: 192" | xrdb -merge
       fi
       feh --bg-fill ~/nixos/themes/nixos_dark.png
       slstatus &
       picom &
-		      '';
+    '';
     desktopManager.gnome.enable = false;
     windowManager.dwm.enable = true;
   };
 
   nixpkgs.overlays = [
     (final: prev: {
-      dwm = prev.dwm.overrideAttrs (old: {src = ./configs/dwm;});
+      dwm = prev.dwm.overrideAttrs (old: { src = ./configs/dwm; });
       neovim = prev.neovim.overrideAttrs (oldAttrs: rec {
         config = builtins.path { path = ./configs/nvim; };
       });
@@ -94,7 +99,7 @@
     isNormalUser = true;
     description = "alberto";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
     shell = pkgs.zsh;
   };
   programs.zsh.enable = true;
@@ -105,45 +110,50 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
-  
+  nixpkgs.config.permittedInsecurePackages = [ "electron-25.9.0" ];
+
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Hack" "Gohu" ]; })
   ];
 
   services.slstatus.enable = true;
   environment.systemPackages = with pkgs; [
-  	# Desktop
-	home-manager
-  	git
-	alacritty
-	neovim
-	dwm
-	dmenu
+    # Essentials
+    gcc
+    clang
+    git
 
-	# Personal
-	firefox
-	obsidian
-	signal-desktop
-	keepassxc
-	calibre
-	steam
-	syncthing
-	
-	# Terminal tools
-	zsh
-	neofetch
-	transmission-qt
-	unzip
-	htop
-	flameshot
-	xclip
-	eza
-	zoxide
-	wirelesstools
-	tree
-	feh
-	picom
+    # Desktop
+    home-manager
+    alacritty
+    neovim
+    dwm
+    dmenu
+
+    # Personal
+    firefox
+    obsidian
+    signal-desktop
+    keepassxc
+    calibre
+    steam
+    syncthing
+
+    # Terminal tools
+    zsh
+    nixpkgs-fmt
+    neofetch
+    transmission-qt
+    unzip
+    htop
+    flameshot
+    xclip
+    eza
+    zoxide
+    wirelesstools
+    tree
+    feh
+    picom
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

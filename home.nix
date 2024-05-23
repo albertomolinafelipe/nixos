@@ -50,6 +50,7 @@
       v = "nvim";
       q = "exit";
       cd = "z";
+      vol = "amixer set Master"
       update = "sudo nixos-rebuild switch --flake ~/nixos/#nixos-config";
     };
 
@@ -58,7 +59,7 @@
     };
     initExtra = ''
       PROMPT='
-      %F{#E6C384}[%F{#7FB4CA}%n%F{none}@%F{blue}nixos%F{none}: %F{#FFA066}%B%~%b%F{#E6C384}] %B>%b%F{none} '
+      %F{#E6C384}[%B%F{#7FB4CA}%n%F{none}@%F{blue}nixos%b%F{none}: %F{#FFA066}%B%~%b%F{#E6C384}] %B>%b%F{none} '
     '';
   };
 
