@@ -11,6 +11,8 @@
     users = { alberto = import ./home.nix; };
   };
 
+
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -99,7 +101,7 @@
   users.users.alberto = {
     isNormalUser = true;
     description = "alberto";
-    extraGroups = [ "networkmanager" "wheel" "docker"];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [ ];
     shell = pkgs.zsh;
   };
@@ -137,8 +139,10 @@
     signal-desktop
     keepassxc
     calibre
+    okular
     steam
     syncthing
+    android-studio
 
     # Terminal tools
     zsh
