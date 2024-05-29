@@ -143,22 +143,26 @@
     steam
     syncthing
     android-studio
+    wirelesstools
 
-    # Terminal tools
+    # Development 
     zsh
+    cargo
+    rustc
     nixpkgs-fmt
-    neofetch
-    transmission-qt
     unzip
+    
+    # Terminal tools
     htop
     flameshot
     xclip
     eza
     zoxide
-    wirelesstools
     tree
     feh
     picom
+    neofetch
+
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

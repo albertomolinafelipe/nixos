@@ -1,3 +1,4 @@
+
 local lsp_zero = require('lsp-zero')
 
 lsp_zero.on_attach(function(client, bufnr)
@@ -14,4 +15,7 @@ require('mason-lspconfig').setup({
   },
 })
 
-lsp_zero.setup()
+lsp_zero.setup({
+  cmd = { "/nix/store/xkf4p6bkcsvpxr49882w0vc9ckaf7zl9-rustup-1.26.0/bin/rust-analyzer" }
+})
+
