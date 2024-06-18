@@ -48,8 +48,8 @@
   # Desktop
   services.xserver = {
     enable = true;
-    # dpi = 180;
     displayManager.gdm.enable = true;
+
     displayManager.sessionCommands = ''
       if xrandr | grep -q "DP-4 connected"; then
         xrandr --output DP-4 --auto --scale 1x1 --transform 1,0,0,0,1,0,0,0,1 --primary
@@ -148,9 +148,15 @@
     # Development 
     zsh
     cargo
-    rustc
+    clippy
+    rust-analyzer
+    
+
     nixpkgs-fmt
+    
+    zip
     unzip
+    texliveTeTeX
     
     # Terminal tools
     htop
