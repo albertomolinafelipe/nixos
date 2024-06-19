@@ -150,8 +150,6 @@
     cargo
     clippy
     rust-analyzer
-    
-
     nixpkgs-fmt
     
     zip
@@ -159,6 +157,7 @@
     texliveTeTeX
     
     # Terminal tools
+    starship
     htop
     flameshot
     xclip

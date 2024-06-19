@@ -71,10 +71,6 @@
     history = {
       size = 10000;
     };
-    initExtra = ''
-      PROMPT='
-      %F{#E6C384}[%B%F{#7FB4CA}%n%F{none}@%F{blue}nixos%b%F{none}: %F{#FFA066}%B%~%b%F{#E6C384}] %B>%b%F{none} '
-    '';
   };
 
   programs.zoxide = {
@@ -86,6 +82,36 @@
     enable = true;
     userName = "albertomolinfelipe";
     userEmail = "albmf@protonmail.com";
+  };
+  programs.starship.enable = true;
+  programs.starship.settings = {
+      format="$directory$git_branch$git_commit$git_state$git_metrics$git_status$rust$nix_shell$character";
+      git_branch = {
+        symbol = "";
+        format = "[$symbol $branch(:$remote_branch)]($style) ";
+        style = "bright-yellow";
+      };
+      character = {
+        success_symbol = "[❯](bold #dd8b4f)";
+      };
+      git_metrics = {
+        disabled = false;
+      };
+      directory = {
+        format = " [$path]($style) ";
+        style = "bold blue";
+        truncation_length = 2;
+        truncate_to_repo = false;
+        truncation_symbol="../";
+      };
+      rust = {
+        format = "[$symbol]($style) ";
+        symbol = "󱘗";
+      };
+      nix_shell = {
+        format = "($style) ";
+      };
+      aws = {disabled = true;};
   };
   programs.alacritty = {
     enable = true;
