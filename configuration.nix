@@ -1,4 +1,5 @@
 { config, pkgs, inputs, ... }:
+
 {
   imports = [
     ./hardware-configuration.nix
@@ -142,7 +143,6 @@
     okular
     steam
     syncthing
-    android-studio
     wirelesstools
 
     # Development 
