@@ -85,7 +85,7 @@
   };
   programs.starship.enable = true;
   programs.starship.settings = {
-      format="$directory$git_branch$git_commit$git_state$git_metrics$git_status$rust$nix_shell$character";
+      format="$directory$git_branch$git_commit$git_state$git_metrics$git_status$kotlin$rust$nix_shell$character";
       git_branch = {
         symbol = "";
         format = "[$symbol $branch(:$remote_branch)]($style) ";
@@ -103,6 +103,11 @@
         truncation_length = 2;
         truncate_to_repo = false;
         truncation_symbol="../";
+      };
+      kotlin = {
+        format = "[$symbol]($style) ";
+        symbol = " ";
+        style = "#3ddc84";
       };
       rust = {
         format = "[$symbol]($style) ";

@@ -144,6 +144,7 @@
     steam
     syncthing
     wirelesstools
+    androidStudioPackages.dev
 
     # Development 
     zsh
@@ -167,7 +168,7 @@
     feh
     picom
     neofetch
-
+    pandoc
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
