@@ -64,6 +64,7 @@
       feh --bg-fill ~/nixos/themes/nixos_dark.png
       slstatus &
       picom &
+      syncthing &
     '';
     desktopManager.gnome.enable = false;
     windowManager.dwm.enable = true;
@@ -160,6 +161,7 @@
     # Terminal tools
     starship
     htop
+    lazygit
     flameshot
     xclip
     eza
@@ -169,6 +171,7 @@
     picom
     neofetch
     pandoc
+    usbutils
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

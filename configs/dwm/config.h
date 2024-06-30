@@ -67,6 +67,7 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *browsercmd[]  = {"firefox", NULL};
 static const char *obsidiancmd[]  = {"obsidian", NULL};
 static const char *signalcmd[]  = {"signal-desktop", NULL};
+static const char *androidcmd[]  = {"android-studio-dev", NULL};
 static const char *screenshotcmd[] = {"flameshot", "gui", NULL};
 
 
@@ -84,6 +85,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_o,      spawn,          {.v = obsidiancmd } },
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = signalcmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = screenshotcmd } },	
+	{ MODKEY|ShiftMask,             XK_a,      spawn,          {.v = androidcmd} },	
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
