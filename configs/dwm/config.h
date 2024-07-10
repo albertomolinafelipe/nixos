@@ -63,12 +63,14 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", sumiInk1, "-nf", col_gray3, "-sb", sumiInk2, "-sf", col_gray4, NULL };
 // Apps
-static const char *termcmd[]  = { "alacritty", NULL };
-static const char *browsercmd[]  = {"firefox", NULL};
-static const char *obsidiancmd[]  = {"obsidian", NULL};
-static const char *signalcmd[]  = {"signal-desktop", NULL};
-static const char *androidcmd[]  = {"android-studio-dev", NULL};
-static const char *screenshotcmd[] = {"flameshot", "gui", NULL};
+static const char *termcmd[]        = {"alacritty", NULL };
+static const char *browsercmd[]     = {"firefox", NULL};
+static const char *obsidiancmd[]    = {"obsidian", NULL};
+static const char *signalcmd[]      = {"signal-desktop", NULL};
+static const char *androidcmd[]     = {"android-studio-dev", NULL};
+static const char *pdfcmd[]         = {"okular", NULL};
+static const char *discordcmd[]     = {"discord", NULL};
+static const char *screenshotcmd[]  = {"flameshot", "gui", NULL};
 
 
 // Volumes
@@ -86,6 +88,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = signalcmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = screenshotcmd } },	
 	{ MODKEY|ShiftMask,             XK_a,      spawn,          {.v = androidcmd} },	
+	{ MODKEY|ShiftMask,             XK_k,      spawn,          {.v = pdfcmd} },	
+	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = discordcmd} },	
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },

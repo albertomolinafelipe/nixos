@@ -139,6 +139,7 @@
     firefox
     obsidian
     signal-desktop
+    discord
     keepassxc
     calibre
     okular
@@ -146,6 +147,7 @@
     syncthing
     wirelesstools
     androidStudioPackages.dev
+    gimp
 
     # Development 
     zsh
@@ -153,6 +155,8 @@
     clippy
     rust-analyzer
     nixpkgs-fmt
+
+    hugo
     
     zip
     unzip
