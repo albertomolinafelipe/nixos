@@ -74,7 +74,7 @@
     (final: prev: {
       dwm = prev.dwm.overrideAttrs (old: { src = ./configs/dwm; });
       neovim = prev.neovim.overrideAttrs (oldAttrs: rec {
-        config = builtins.path { path = ./configs/nvim; };
+        src = builtins.path { path = ./configs/nvim; };
       });
     })
   ];
