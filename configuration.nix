@@ -74,7 +74,7 @@
     (final: prev: {
       dwm = prev.dwm.overrideAttrs (old: { src = ./configs/dwm; });
       neovim = prev.neovim.overrideAttrs (oldAttrs: rec {
-        src = builtins.path { path = ./configs/nvim; };
+        config = builtins.path { path = ./configs/nvim; };
       });
     })
   ];
@@ -90,10 +90,11 @@
 
   # Enable sound with pipewire.
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
   security.rtkit.enable = true;
   services.pipewire = {
-    enable = true;
+    enable = false;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
@@ -127,6 +128,7 @@
     gcc
     clang
     git
+    gitflow
 
     # Desktop
     home-manager
@@ -147,25 +149,25 @@
     syncthing
     wirelesstools
     androidStudioPackages.dev
-    gimp
 
     # Development 
     zsh
     cargo
     clippy
     rust-analyzer
+    python3
+    pyright
+    nodejs
     nixpkgs-fmt
-
     hugo
-    
     zip
     unzip
     texliveTeTeX
+    act
     
     # Terminal tools
     starship
     htop
-    lazygit
     flameshot
     xclip
     eza

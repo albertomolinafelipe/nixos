@@ -31,11 +31,10 @@ mason_lspconfig.setup_handlers({
   -- Override for rust_analyzer
   ["rust_analyzer"] = function()
     lspconfig.rust_analyzer.setup({
-      cmd = {"/home/alberto/.nix-profile/bin/rust-analyzer"},
+      cmd ={"/nix/store/pmfczvr6gcy0sh3j480gbz6fc5h5wai1-rust-analyzer-2024-06-24/bin/rust-analyzer"},
       on_attach = opts.on_attach,
       capabilities = opts.capabilities,
     })
   end,
-
   -- Other custom server setups...
 })
