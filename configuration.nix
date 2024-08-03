@@ -44,7 +44,6 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-
   virtualisation.docker.enable = true;
   # Desktop
   services.xserver = {
@@ -153,7 +152,7 @@
     # Development 
     zsh
     cargo
-    clippy
+    rustc
     rust-analyzer
     python3
     pyright
@@ -162,8 +161,9 @@
     hugo
     zip
     unzip
-    texliveTeTeX
+    texliveFull
     act
+    antares
     
     # Terminal tools
     starship
@@ -176,6 +176,7 @@
     feh
     picom
     neofetch
+    tree-sitter
     pandoc
     usbutils
   ];

@@ -70,13 +70,14 @@ static const char *signalcmd[]      = {"signal-desktop", NULL};
 static const char *androidcmd[]     = {"android-studio-dev", NULL};
 static const char *pdfcmd[]         = {"okular", NULL};
 static const char *discordcmd[]     = {"discord", NULL};
+static const char *keepasscmd[]     = {"keepassxc", NULL};
 static const char *screenshotcmd[]  = {"flameshot", "gui", NULL};
 
 
 // Volumes
-static const char *volupcmd[] = {"amixer", "set", "Master", "5%+", NULL};
-static const char *voldowncmd[] = {"amixer", "set", "Master", "5%-", NULL};
-static const char *mutecmd[] = {"amixer", "set", "Master", "toggle", NULL};
+//  static const char *volupcmd[] = {"amixer", "set", "Master", "5%+", NULL};
+//  static const char *voldowncmd[] = {"amixer", "set", "Master", "5%-", NULL};
+//  static const char *mutecmd[] = {"amixer", "set", "Master", "toggle", NULL};
 
 
 static const Key keys[] = {
@@ -88,7 +89,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = signalcmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = screenshotcmd } },	
 	{ MODKEY|ShiftMask,             XK_a,      spawn,          {.v = androidcmd} },	
-	{ MODKEY|ShiftMask,             XK_k,      spawn,          {.v = pdfcmd} },	
+	{ MODKEY|ShiftMask,             XK_r,      spawn,          {.v = pdfcmd} },	
+	{ MODKEY|ShiftMask,             XK_k,      spawn,          {.v = keepasscmd} },	
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = discordcmd} },	
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
