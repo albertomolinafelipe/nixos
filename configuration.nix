@@ -24,7 +24,6 @@
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -60,7 +59,7 @@
         # xrandr --output DP-4 --off
         echo "Xft.dpi: 192" | xrdb -merge
       fi
-      feh --bg-fill ~/nixos/themes/nixos_dark.png
+      feh --bg-fill ~/nixos/themes/nixos_pixel.png
       slstatus &
       picom &
       syncthing &
@@ -88,16 +87,20 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
   security.rtkit.enable = true;
   services.pipewire = {
-    enable = false;
+    enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  hardware.bluetooth.settings = {
+    General = {
+      Enable = "Source,Sink,Media,Socket";
+    };
+  };
+
 
   # User	
   users.users.alberto = {
@@ -127,11 +130,12 @@
     gcc
     clang
     git
-    gitflow
+    alsa-utils
 
     # Desktop
     home-manager
     alacritty
+    kitty # to compare with default colors
     neovim
     dwm
     dmenu
@@ -154,6 +158,7 @@
     cargo
     rustc
     rust-analyzer
+    terraform-ls
     python3
     pyright
     nodejs

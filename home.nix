@@ -64,7 +64,7 @@
       q = "exit";
       cd = "z";
       vol = "amixer set Master";
-      shell = "nix develop --command zsh";
+      shell = "neofetch && nix develop --command zsh";
       update = "sudo nixos-rebuild switch --flake ~/nixos/#nixos-config";
     };
 
