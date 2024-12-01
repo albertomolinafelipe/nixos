@@ -22,6 +22,8 @@
   services.udisks2.enable = true;
   # Enable networking
   networking.networkmanager.enable = true;
+  services.ofono.enable = true;
+  services.blueman.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
@@ -63,6 +65,7 @@
       slstatus &
       picom &
       syncthing &
+      dunst &
     '';
     desktopManager.gnome.enable = false;
     windowManager.dwm.enable = true;
@@ -88,8 +91,9 @@
 
   # Enable sound with pipewire.
   security.rtkit.enable = true;
+  hardware.pulseaudio.enable = true;
   services.pipewire = {
-    enable = true;
+    enable = false;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
@@ -125,12 +129,16 @@
   ];
 
   services.slstatus.enable = true;
+  services.cron.enable = true;
   environment.systemPackages = with pkgs; [
     # Essentials
     gcc
     clang
     git
     alsa-utils
+    hsphfpd
+    dunst 
+    libnotify
 
     # Desktop
     home-manager
@@ -168,7 +176,6 @@
     unzip
     texliveFull
     act
-    antares
     
     # Terminal tools
     starship
