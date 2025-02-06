@@ -31,10 +31,16 @@ mason_lspconfig.setup_handlers({
   -- Override for rust_analyzer
   ["rust_analyzer"] = function()
     lspconfig.rust_analyzer.setup({
-      cmd ={"/nix/store/pmfczvr6gcy0sh3j480gbz6fc5h5wai1-rust-analyzer-2024-06-24/bin/rust-analyzer"},
+      cmd ={"/run/current-system/sw/bin/rust-analyzer"},
       on_attach = opts.on_attach,
       capabilities = opts.capabilities,
     })
   end,
-  -- Other custom server setups...
+  ["terraformls"] = function()
+    lspconfig.terraformls.setup({
+      cmd ={"/run/current-system/sw/bin/terraform-ls"},
+      on_attach = opts.on_attach,
+      capabilities = opts.capabilities,
+    })
+  end,
 })

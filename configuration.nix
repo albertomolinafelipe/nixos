@@ -12,11 +12,12 @@
     users = { alberto = import ./home.nix; };
   };
 
-
+  services.quassel.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.extraModulePackages = [ pkgs.linuxPackages.v4l2loopback ];
 
   networking.hostName = "nixos";
   services.udisks2.enable = true;
@@ -46,6 +47,7 @@
   };
 
   virtualisation.docker.enable = true;
+
   # Desktop
   services.xserver = {
     enable = true;
@@ -124,26 +126,40 @@
 
   nixpkgs.config.permittedInsecurePackages = [ "electron-25.9.0" ];
 
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Hack" "Gohu" ]; })
+  fonts.packages = with pkgs.nerd-fonts; [
+    hack
+    gohufont
   ];
 
   services.slstatus.enable = true;
   services.cron.enable = true;
+  services.ollama.enable = true;
+  system.activationScripts = {
+    script.text = ''
+      install -d -m 755 /home/alberto/open-webui/data -o root -g root
+    '';
+   };
   environment.systemPackages = with pkgs; [
+    # uc3m
+    jetbrains.pycharm-professional
+
     # Essentials
     gcc
+    gnumake
     clang
     git
+    bc
+    ripgrep
     alsa-utils
     hsphfpd
     dunst 
     libnotify
+    droidcam
+    pulsemixer
 
     # Desktop
     home-manager
     alacritty
-    kitty # to compare with default colors
     neovim
     dwm
     dmenu
@@ -176,7 +192,10 @@
     unzip
     texliveFull
     act
-    
+    protobuf
+    openssl
+    go
+
     # Terminal tools
     starship
     htop
