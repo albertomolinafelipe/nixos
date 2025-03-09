@@ -171,7 +171,7 @@
     discord
     keepassxc
     calibre
-    okular
+    kdePackages.okular
     steam
     syncthing
     wirelesstools
