@@ -141,7 +141,7 @@
    };
   environment.systemPackages = with pkgs; [
     # uc3m
-    jetbrains.pycharm-professional
+    anki
 
     # Essentials
     gcc
@@ -178,6 +178,8 @@
     androidStudioPackages.dev
 
     # Development 
+    rpcsvc-proto
+    libtirpc
     zsh
     cargo
     rustc
@@ -186,6 +188,7 @@
     python3
     pyright
     nodejs
+    cjson
     nixpkgs-fmt
     hugo
     zip
