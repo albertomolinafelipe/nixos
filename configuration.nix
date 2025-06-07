@@ -134,11 +134,6 @@
   services.slstatus.enable = true;
   services.cron.enable = true;
   services.ollama.enable = true;
-  system.activationScripts = {
-    script.text = ''
-      install -d -m 755 /home/alberto/open-webui/data -o root -g root
-    '';
-   };
   environment.systemPackages = with pkgs; [
     # uc3m
     anki
@@ -170,34 +165,27 @@
     signal-desktop
     discord
     keepassxc
-    calibre
     kdePackages.okular
     steam
     syncthing
     wirelesstools
-    androidStudioPackages.dev
 
     # Development 
-    rpcsvc-proto
-    libtirpc
     zsh
     cargo
     rustc
     rust-analyzer
     terraform-ls
-    python3
     pyright
     nodejs
     cjson
     nixpkgs-fmt
-    hugo
     zip
     unzip
     texliveFull
-    act
-    protobuf
-    openssl
     go
+    mage
+    docker-compose
 
     # Terminal tools
     starship
@@ -213,6 +201,7 @@
     tree-sitter
     pandoc
     usbutils
+    superfile
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

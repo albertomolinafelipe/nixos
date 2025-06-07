@@ -10,7 +10,7 @@
      .theme-dark
      {
      
-         --sumiInk0      : #16161D;
+    --sumiInk0      : #16161D;
     --sumiInk1b     : #181820;
     --sumiInk1      : #1F1F28;
     --sumiInk2      : #2A2A37;
@@ -64,7 +64,7 @@
     --customBold    : #E1BF82;
 
      
-    --background-primary:         var(--sumiInk1);
+    --background-primary:         var(--sumiInk0);
     --background-primary-alt:     var(--sumiInk1);
     --background-secondary:       var(--sumiInk1b);
     --background-secondary-alt:   var(--sumiInk2);

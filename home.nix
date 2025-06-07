@@ -63,6 +63,7 @@
       v = "nvim";
       q = "exit";
       cd = "z";
+      e = "superfile";
       vol = "amixer set Master";
       shell = "nix develop --command zsh";
       update = "sudo nixos-rebuild switch --flake ~/nixos/#nixos-config";
