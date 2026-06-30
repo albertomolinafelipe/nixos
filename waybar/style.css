@@ -1,0 +1,265 @@
+@define-color bg      #1f1f28;
+@define-color surface #2a2a37;
+@define-color fg      #dcd7ba;
+@define-color muted   #54546d;
+@define-color blue    #7e9cd8;
+@define-color cyan    #7fb4ca;
+@define-color green   #98bb6c;
+@define-color yellow  #e6c384;
+@define-color orange  #ffa066;
+@define-color red     #e46876;
+
+* {
+  border: none;
+  padding: 0px;
+  font-family: 'GohuFont 14 Nerd Font';
+  font-size: 14px;
+  font-weight: bold;
+  min-height: 0;
+  transition: background-color .3s ease-out;
+  }
+
+
+/* --- Waybar ---*/
+window#waybar {
+  background-color: transparent;
+  transition-property: background-color;
+  transition-duration: .5s;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+#waybar > box {
+  background-color: @bg;
+  min-height: 22px;
+}
+
+/* --- Modules --- */
+
+.modules-left,
+.modules-center {
+  background-color: transparent;
+}
+
+#right {
+margin-right: 2px;
+color: @fg;
+}
+
+/* --- Workspaces --- */
+
+button {
+  box-shadow: inset 0 -3px transparent;
+  border: none;
+  border-radius: 0;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background: inherit;
+}
+
+#workspaces {
+  background-color: @bg;
+  margin: 0 2px;
+  padding: 0px;
+  border-radius: 3px;
+}
+
+#workspaces button {
+  color: @fg;
+  background-color: @bg;
+  padding: 0px 4px;
+  margin: 0 1px;
+  border-radius: 2px;
+}
+
+#workspaces button.active {
+  background-color: @fg;
+  color: @bg;
+}
+
+#workspaces button.empty {
+  color: @fg;
+  background: @bg;
+  opacity: 0.35;
+}
+
+#workspaces button.empty.active {
+  color: @bg;
+  background: @fg;
+  opacity: 1;
+}
+
+#workspaces button:hover {
+  background-color: @fg;
+  color: @bg;
+  opacity: 1;
+}
+
+
+/* --- General Modules --- */
+
+#tray,
+#custom-mpris,
+#memory,
+#cpu,
+#battery,
+#network,
+#backlight,
+#bluetooth,
+#pulseaudio,
+#custom-idle-indicator,
+#custom-notification-silencing-indicator,
+#custom-updatespacman,
+#custom-update,
+#custom-screenrecording-indicator,
+#clock {
+  min-width: 14px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin: 0 2px 0 2px;
+}
+
+#tray {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#clock {
+  color: @fg;
+}
+
+#backlight {
+  padding-right: 0px;
+  padding-left: 6px;
+}
+
+#bluetooth {
+  padding-left: 0px;
+}
+
+#bluetooth,
+#mpris,
+#memory,
+#cpu,
+#battery,
+#network,
+#backlight,
+#bluetooth,
+#pulseaudio {
+  padding: 0 6px;
+  background-color: transparent;
+}
+
+#memory,
+#cpu {
+min-width: 45px;
+}
+
+tooltip {
+ padding: 4px;
+ background: @bg;
+ font-size: 10px;
+ border: 2px solid alpha(@fg, 0.2);
+ border-radius: 5px;
+}
+tooltip label {
+    color: @fg;
+    font-weight: bold;
+}
+
+#custom-voxtype {
+  min-width: 12px;
+  margin: 0 0 0 7.5px;
+}
+
+#custom-voxtype.recording {
+  color: @red;
+}
+
+#custom-separator {
+  opacity: 0.2;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#custom-idle-indicator,
+#custom-notification-silencing-indicator {
+  min-width: 12px;
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 10px;
+  padding-bottom: 0px;
+}
+
+#custom-idle-indicator.active,
+#custom-notification-silencing-indicator.active {
+  color: @red;
+}
+
+/* Specific Module */
+
+.hidden {
+  opacity: 0;
+}
+
+#custom-mpris {
+color: @fg;
+animation: repeat;
+	animation-name: blink;
+	animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to {
+        color: @surface;
+    }
+}
+
+#custom-screenrecording-indicator {
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  color: transparent;
+}
+
+#custom-screenrecording-indicator.active {
+  color: @red;
+  background-color: @bg;
+  animation-name: blink-recording;
+  animation-duration: 0.5s;
+}
+
+@keyframes blink-recording {
+    to {
+        color: @bg;
+    }
+}
+
+#battery.warning {
+  color: @orange;
+  background-color: @bg;
+}
+
+@keyframes blink2 {
+  to {
+    background-color: @bg;
+    color: @red;
+  }
+}
+
+#battery.critical:not(.charging) {
+  background-color: @bg;
+  color: @fg;
+  animation-name: blink2;
+  animation-duration: 0.5s;
+  animation-timing-function: steps(12);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
