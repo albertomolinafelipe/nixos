@@ -273,7 +273,7 @@ hl.device({
 local mainMod = "ALT" -- Sets "Alt" key as main modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind(mainMod .. " + Q", hl.dsp.window.close())
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + RETURN", hl.dsp.exec_cmd(terminal))
 -- macOS-style clipboard: send CTRL+<key> to the focused app
 hl.bind(mainMod .. " + C", hl.dsp.send_shortcut({ mods = "CTRL", key = "c" }))
@@ -281,9 +281,11 @@ hl.bind(mainMod .. " + V", hl.dsp.send_shortcut({ mods = "CTRL", key = "v" }))
 hl.bind(mainMod .. " + X", hl.dsp.send_shortcut({ mods = "CTRL", key = "x" }))
 hl.bind(mainMod .. " + A", hl.dsp.send_shortcut({ mods = "CTRL", key = "a" }))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(mainMod .. " + ESCAPE", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && hyprshot -m region -o ~/Pictures/Screenshots"))
 hl.bind(mainMod .. " + T", hl.dsp.layout("togglesplit"))    -- dwindle only
 
 -- Fullscreen

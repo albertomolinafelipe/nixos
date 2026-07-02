@@ -23,12 +23,15 @@
     obsidian
     keepassxc
     discord
+    signal-desktop
+    whatsie
 
     waybar
+    playerctl
     bemenu
 
     # utilities
-    flameshot
+    hyprshot
 
     # terminal
     tree
@@ -76,9 +79,57 @@
     };
   };
 
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        hide_cursor = true;
+        grace = 0;
+      };
+
+      background = [{
+        path = "~/nixos/bg.png";
+        blur_passes = 2;
+        blur_size = 4;
+      }];
+
+      input-field = [{
+        size = "250, 50";
+        position = "0, -80";
+        halign = "center";
+        valign = "center";
+        outline_thickness = 1;
+        dots_size = 0.25;
+        dots_spacing = 0.3;
+        outer_color = "rgb(e6c384)";
+        inner_color = "rgb(1f1f28)";
+        font_color = "rgb(dcd7ba)";
+        check_color = "rgb(c0a36e)";
+        fail_color = "rgb(c34043)";
+        placeholder_text = "";
+        fade_on_empty = false;
+        rounding = 3;
+      }];
+
+      label = [{
+        text = "$TIME";
+        color = "rgb(dcd7ba)";
+        font_size = 64;
+        font_family = "Hack Nerd Font";
+        position = "0, 80";
+        halign = "center";
+        valign = "center";
+      }];
+    };
+  };
+
   programs.waybar.enable = true;
   xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
   xdg.configFile."waybar/style.css".source = ./waybar/style.css;
+  xdg.configFile."waybar/scrolling-mpris.sh" = {
+    source = ./waybar/scrolling-mpris.sh;
+    executable = true;
+  };
 
   programs.kitty = {
     enable = true;
@@ -112,6 +163,14 @@
 
       # kanagawa status bar background
       set -g status-style "bg=#2a2a37,fg=#dcd7ba"
+
+      # pane border same color as status bar background
+      set -g pane-border-style "fg=#2a2a37"
+      set -g pane-active-border-style "fg=#2a2a37"
+
+      # vim-tmux-navigator steals C-l for pane navigation;
+      # restore clear-screen under the prefix (C-Space C-l)
+      bind C-l send-keys 'C-l'
     '';
   };
 
@@ -131,11 +190,58 @@
     shellAliases = {
       ncg = "sudo nix-collect-garbage -d";
       nrb = "sudo nixos-rebuild switch --flake ~/nixos";
+      nsp = "nix-shell --command zsh -p ";
       l = "eza -l --icons --git --sort=Extension";
       v = "nvim";
       q = "exit";
+      gst = "git status";
     };
     initContent = "bindkey -v";
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.opencode = {
+    enable = true;
+    settings = {
+      # read-only tools never prompt; edits/fetch still ask
+      permission = {
+        read = "allow";
+        list = "allow";
+        glob = "allow";
+        grep = "allow";
+        edit = "ask";
+        webfetch = "ask";
+        # default-ask, with read-only shell commands allowed (last match wins)
+        bash = {
+          "*" = "ask";
+          "ls *" = "allow";
+          "cat *" = "allow";
+          "head *" = "allow";
+          "tail *" = "allow";
+          "pwd" = "allow";
+          "echo *" = "allow";
+          "which *" = "allow";
+          "grep *" = "allow";
+          "rg *" = "allow";
+          "fd *" = "allow";
+          "find *" = "allow";
+          "tree *" = "allow";
+          "wc *" = "allow";
+          "stat *" = "allow";
+          "file *" = "allow";
+          "git status" = "allow";
+          "git log *" = "allow";
+          "git diff *" = "allow";
+          "git show *" = "allow";
+          "git branch *" = "allow";
+        };
+      };
+    };
   };
 
   programs.zoxide = {
@@ -175,7 +281,7 @@
         symbol = "go";
       };
       nix_shell = {
-        format = "($style) ";
+        format = "($style) ";
       };
       aws = {disabled = true;};
     };

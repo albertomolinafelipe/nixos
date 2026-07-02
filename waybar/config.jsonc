@@ -247,7 +247,7 @@
     "spacing": 5
   },
 	"custom/mpris": {
-		"exec": "python3 -u ~/.config/waybar/scrolling-mpris.py",
+		"exec": "~/.config/waybar/scrolling-mpris.sh",
 		"format": "{text}",
         "return-type": "json",
 		"on-click": "playerctl play-pause",

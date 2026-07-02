@@ -73,6 +73,12 @@
     shell = pkgs.zsh;
   };
 
+  # Rootless Docker (daemon runs as user, not root)
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 

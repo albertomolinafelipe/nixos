@@ -54,8 +54,6 @@
       { mode = "n"; key = "<C-k>"; action.__raw = ''function() require("harpoon"):list():prev() end''; options.desc = "Harpoon prev"; }
 
       # OpenCode
-      { mode = [ "n" "i" "x" ]; key = "<C-Esc>"; action.__raw = ''function() require("opencode").toggle() end''; options.desc = "Toggle OpenCode"; }
-      { mode = "n"; key = "<leader>oo"; action.__raw = ''function() require("opencode").toggle() end''; options.desc = "Toggle OpenCode"; }
       { mode = [ "n" "x" ]; key = "<leader>oa"; action.__raw = ''function() require("opencode").ask("@this: ", { submit = true }) end''; options.desc = "Ask OpenCode about selection/buffer"; }
       { mode = [ "n" "x" ]; key = "<leader>oq"; action.__raw = ''function() require("opencode").ask("", { submit = false }) end''; options.desc = "Quick ask OpenCode"; }
       { mode = "n"; key = "<leader>oe"; action.__raw = ''function() require("opencode").prompt("/editor", { submit = true }) end''; options.desc = "Open OpenCode editor"; }
