@@ -179,6 +179,7 @@
     settings.user.name = "albertomolinafelipe";
     settings.user.email = "albmf@protonmail.com";
     settings.init.defaultBranch = "main";
+    settings.autoSetupRemote = "true";
   };
 
   programs.zsh = {
