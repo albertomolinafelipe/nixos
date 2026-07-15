@@ -46,7 +46,7 @@ end
 ---------------------
 
 -- Set programs that you use
-local terminal    = "kitty"
+local terminal    = "kitty tmux"
 local fileManager = "dolphin"
 local menu = table.concat({
   "bemenu-run",
