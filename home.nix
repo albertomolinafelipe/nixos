@@ -1,5 +1,22 @@
 { inputs, config, pkgs, ... }:
 
+let
+  # Prints $PWD with $HOME as ~, keeping only the last 8 path components
+  # (prefixed with ../ when truncated) to mirror the old directory module.
+  starshipDirCmd = ''
+    case "$PWD" in
+      "$HOME") dir="~" ;;
+      "$HOME"/*) dir="~/''${PWD#$HOME/}" ;;
+      *) dir="$PWD" ;;
+    esac
+    oldIFS=$IFS; IFS=/; parts=($dir); IFS=$oldIFS
+    if [ "''${#parts[@]}" -gt 8 ]; then
+      IFS=/; dir="../''${parts[*]: -8}"; IFS=$oldIFS
+    fi
+    printf '%s' "$dir"
+  '';
+  starshipDirShell = [ "bash" "--noprofile" "--norc" ];
+in
 {
   imports = [
     inputs.nixvim.homeModules.nixvim
@@ -16,7 +33,14 @@
   };
 
   home.packages = with pkgs; [
+    # Internal nhost CLI
+    inputs.nhost-be.packages.${pkgs.system}.nhost-code
+    inputs.nhost-be.packages.${pkgs.system}.gha
+    inputs.nhost.packages.${pkgs.system}.ghactivity
+
     claude-code
+    gh 
+    awscli
 
     firefox
     spotify
@@ -34,9 +58,15 @@
     hyprshot
 
     # terminal
+    gcc
     tree
     htop
     eza
+    ripgrep
+    lazygit
+    gnumake
+    kubectl
+    k9s
   ];
 
   home.pointerCursor = {
@@ -55,13 +85,16 @@
     };
     font = {
       name = "Hack Nerd Font";
-      size = 11;
+      size = 10;
     };
     gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
   };
   
   xdg.configFile."hypr/hyprland.lua".source = ./hypr/hyprland.lua;
+  xdg.configFile."k9s/config.yaml".source = ./k9s/config.yaml;
+  xdg.configFile."k9s/aliases.yaml".source = ./k9s/aliases.yaml;
+  xdg.configFile."k9s/skins/kanagawa.yaml".source = ./k9s/skins/kanagawa.yaml;
   wayland.windowManager.hyprland.systemd.enable = false;
   services.hyprpaper = {
     enable = true;
@@ -123,6 +156,30 @@
     };
   };
 
+  # SOC2: 15-minute inactivity auto-lock and screen-off. Do not relax the
+  # timeouts without a compliance review. Uses hyprlock (configured above).
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock";
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+      };
+      listener = [
+        {
+          timeout = 15 * 60;
+          on-timeout = "loginctl lock-session";
+        }
+        {
+          timeout = 15 * 60;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+      ];
+    };
+  };
+
   programs.waybar.enable = true;
   xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
   xdg.configFile."waybar/style.css".source = ./waybar/style.css;
@@ -139,9 +196,9 @@
       size = 11;
     };
     keybindings = {
-      "ctrl+minus" = "decrease_font_size";
-      "ctrl+plus" = "increase_font_size";
-      "ctrl+0" = "restore_font_size";
+      "ctrl+minus" = "change_font_size all -1.0";
+      "ctrl+plus" = "change_font_size all +1.0";
+      "ctrl+0" = "change_font_size all 0";
     };
   };
 
@@ -179,7 +236,7 @@
     settings.user.name = "albertomolinafelipe";
     settings.user.email = "albmf@protonmail.com";
     settings.init.defaultBranch = "main";
-    settings.autoSetupRemote = "true";
+    settings.push.autoSetupRemote = "true";
   };
 
   programs.zsh = {
@@ -195,6 +252,7 @@
       l = "eza -l --icons --git --sort=Extension";
       v = "nvim";
       q = "exit";
+      k = "kubectl";
       gst = "git status";
     };
     initContent = "bindkey -v";
@@ -254,7 +312,7 @@
   programs.starship = {
     enable = true;
     settings = {
-      format="$directory$git_branch$git_commit$git_state$git_metrics$git_status$golang$rust$nix_shell$character";
+      format="\${custom.dir_prod}\${custom.dir_normal}$git_branch$git_commit$git_state$git_metrics$git_status$golang$rust$aws$nix_shell$character";
       git_branch = {
         symbol = "";
         format = "[$symbol $branch(:$remote_branch)]($style) ";
@@ -266,12 +324,20 @@
       git_metrics = {
         disabled = false;
       };
-      directory = {
-        format = " [$path]($style) ";
+      directory.disabled = true;
+      custom.dir_prod = {
+        command = starshipDirCmd;
+        when = "pwd | grep -qi prod";
+        shell = starshipDirShell;
+        style = "bold red";
+        format = " [$output]($style) ";
+      };
+      custom.dir_normal = {
+        command = starshipDirCmd;
+        when = "pwd | grep -qiv prod";
+        shell = starshipDirShell;
         style = "bold blue";
-        truncation_length = 2;
-        truncate_to_repo = false;
-        truncation_symbol="../";
+        format = " [$output]($style) ";
       };
       rust = {
         format = "[$symbol]($style) ";

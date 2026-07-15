@@ -207,6 +207,7 @@
       fugitive.enable = true;
       gitsigns.enable = true;
       diffview.enable = true;
+      octo.enable = true;
 
       # LSP
       lsp = {

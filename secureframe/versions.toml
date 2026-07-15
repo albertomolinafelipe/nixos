@@ -1,0 +1,7 @@
+[fleetd-tables]
+# Updates: https://github.com/fleetdm/fleet/commits/main
+upstream = "github-rev:fleetdm/fleet"
+version = "0-unstable-2026-05-12"
+rev = "46784bbb52d449f72871b164de0535c820b624b2"
+srcHash = "sha256-ygy2iFOeBpJt4pXXeBUxK+1ecH6VIxQQYm/69MC9O4U="
+vendorHash = "sha256-B5KKM3cUR1RYoO4YMJpOWiKjxAAF+oWtx183nrbDTJY="

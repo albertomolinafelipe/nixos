@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 {
   imports =
@@ -26,7 +26,10 @@
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    trusted-users = [ "root" "alberto" ];
+    experimental-features = [ "nix-command" "flakes" ];
+  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -68,15 +71,17 @@
   users.users."alberto" = {
     isNormalUser = true;
     description = "alberto";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
     shell = pkgs.zsh;
   };
 
-  # Rootless Docker (daemon runs as user, not root)
-  virtualisation.docker.rootless = {
+  virtualisation.docker = {
     enable = true;
-    setSocketVariable = true;
+    # Use the classic overlay2 image store. Docker 29 defaults to the
+    # containerd image store, whose streaming load path breaks skopeo's
+    # `docker-daemon:` transport (used by `make build-docker-image`).
+    daemon.settings.features.containerd-snapshotter = false;
   };
 
   # Allow unfree packages
@@ -113,6 +118,11 @@
     };
   };
   services.blueman.enable = true;
+
+  # Secureframe / Fleet compliance agent lives in ./secureframe.nix (imported
+  # via the flake). It uses nixpkgs' declarative services.osquery + a mitmproxy
+  # instead of the old imperative orbit agent, so no nix-ld shim is needed.
+
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
