@@ -94,6 +94,7 @@ in
 
   programs.k9s = {
     enable = true;
+    skins.kanagawa = ./k9s/skins/kanagawa.yaml;
     settings = {
       k9s = {
         liveViewAutoRefresh = false;
