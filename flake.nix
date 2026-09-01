@@ -6,8 +6,8 @@
     nixvim.url = "github:nix-community/nixvim";
     # Internal nhost backend flake (local checkout, tracks its main branch).
     # Bump the pinned revision with: nix flake update nhost-be
-    nhost-be.url = "git+file:///home/alberto/code/be";
-    nhost.url = "git+file:///home/alberto/code/nhost";
+    nhost-be.url = "git+file:///home/alberto/code/be/main";
+    nhost.url = "git+file:///home/alberto/code/nhost/main";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

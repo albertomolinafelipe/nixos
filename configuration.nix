@@ -23,6 +23,14 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.initrd.luks.devices."luks-d7c2cbf4-97e3-4275-86be-d0715bba8399".device = "/dev/disk/by-uuid/d7c2cbf4-97e3-4275-86be-d0715bba8399";
+
+  # The SOC2 firewall (networking.firewall.enable in secureframe.nix) defaults
+  # the FORWARD chain to DROP. With br_netfilter loaded, kind's cross-node pod
+  # traffic is bridged through that chain and silently dropped, which breaks
+  # pod-to-pod networking and admission webhooks. Don't send bridged frames
+  # through iptables so the firewall stays enabled without dropping them.
+  boot.kernel.sysctl."net.bridge.bridge-nf-call-iptables" = 0;
+  boot.kernel.sysctl."net.bridge.bridge-nf-call-ip6tables" = 0;
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -67,6 +75,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
+  programs.steam.enable = true;
 
   users.users."alberto" = {
     isNormalUser = true;

@@ -94,7 +94,6 @@ in
 
   programs.k9s = {
     enable = true;
-    skins.kanagawa = ./k9s/skins/kanagawa.yaml;
     settings = {
       k9s = {
         liveViewAutoRefresh = false;
@@ -108,16 +107,6 @@ in
         portForwardAddress = "localhost";
         ui = {
           skin = "kanagawa";
-          enableMouse = false;
-          headless = false;
-          logoless = false;
-          crumbsless = false;
-          splashless = false;
-          reactive = false;
-          noIcons = false;
-          invert = false;
-          defaultsToFullScreen = false;
-          useFullGVRTitle = false;
         };
         skipLatestRevCheck = false;
         disablePodCounting = false;
@@ -267,7 +256,7 @@ in
     themeFile = "kanagawa";
     font = {
       name = "Hack Nerd Font Mono";
-      size = 10;
+      size = 9;
     };
     keybindings = {
       "ctrl+minus" = "change_font_size all -1.0";
@@ -278,7 +267,7 @@ in
 
   programs.tmux = {
     enable = true;
-    prefix = "C-Space";
+    prefix = "C-b";
     baseIndex = 1;
     keyMode = "vi";
     mouse = true;
@@ -294,6 +283,20 @@ in
 
       # kanagawa status bar background
       set -g status-style "bg=#2a2a37,fg=#dcd7ba"
+
+      # center the window list
+      set -g status-justify centre
+
+      # kanagawa window styling
+      set -g status-left "#[fg=#2a2a37,bg=#e6c384,bold] #S #[fg=#e6c384,bg=#2a2a37]"
+      set -g status-left-length 30
+      set -g status-right "#[fg=#54546d]%H:%M "
+
+      # inactive windows: muted
+      set -g window-status-format "#[fg=#727169] #I:#W "
+      # active window: kanagawa yellow accent, [Z] when zoomed
+      set -g window-status-current-format "#[fg=#2a2a37,bg=#e6c384,bold] #I:#W#{?window_zoomed_flag, [Z],} "
+      set -g window-status-separator ""
 
       # pane border same color as status bar background
       set -g pane-border-style "fg=#2a2a37"
@@ -322,13 +325,18 @@ in
     shellAliases = {
       ncg = "sudo nix-collect-garbage -d";
       nrb = "sudo nixos-rebuild switch --flake ~/nixos";
-      nsp = "nix-shell --command zsh -p ";
+      nd = "nix develop -c zsh";
       l = "eza -l --icons --git --sort=Extension";
       v = "nvim";
       q = "exit";
       k = "kubectl";
       gst = "git status";
+      gwt = "git worktree";
+      ga = "git add";
+      glo = "git log --oneline";
       lg = "lazygit";
+      k9s = "k9s --readonly";
+      pi = "nhost-code";
     };
     initContent = "bindkey -v";
   };
