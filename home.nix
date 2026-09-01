@@ -305,6 +305,10 @@ in
       # vim-tmux-navigator steals C-l for pane navigation;
       # restore clear-screen under the prefix (C-Space C-l)
       bind C-l send-keys 'C-l'
+
+      # new panes inherint cwd
+      bind '"' split-window -c "#{pane_current_path}"
+      bind %   split-window -h -c "#{pane_current_path}"
     '';
   };
 
