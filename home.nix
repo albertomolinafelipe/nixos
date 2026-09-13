@@ -49,6 +49,7 @@ in
     discord
     signal-desktop
     whatsie
+    calibre
 
     waybar
     playerctl
@@ -274,8 +275,29 @@ in
     escapeTime = 0;
     historyLimit = 10000;
     terminal = "tmux-256color";
-    plugins = with pkgs.tmuxPlugins; [
-      vim-tmux-navigator
+    plugins = [
+      pkgs.tmuxPlugins.vim-tmux-navigator
+      {
+        plugin = pkgs.callPackage ./pkgs/coding-agents-tmux.nix { };
+        extraConfig = ''
+          set -g @coding-agents-tmux-provider 'plugin'
+          set -g @coding-agents-tmux-auto-install 'opencode,pi,codex,claude'
+          set -g @coding-agents-tmux-menu-key 'O'
+          set -g @coding-agents-tmux-popup-key 'P'
+          set -g @coding-agents-tmux-waiting-menu-key 'W'
+          set -g @coding-agents-tmux-waiting-popup-key 'C-w'
+          set -g @coding-agents-tmux-status 'on'
+          set -g @coding-agents-tmux-status-style 'tmux'
+          set -g @coding-agents-tmux-status-position 'right'
+          set -g @coding-agents-tmux-status-interval '0'
+
+          set -g @coding-agents-tmux-status-color-neutral '#727169'
+          set -g @coding-agents-tmux-status-color-idle '#727169'
+          set -g @coding-agents-tmux-status-color-busy '#7fb4ca'
+          set -g @coding-agents-tmux-status-color-waiting '#e6c384'
+          set -g @coding-agents-tmux-status-color-unknown '#54546d'
+        '';
+      }
     ];
     extraConfig = ''
       # true color passthrough
@@ -290,7 +312,7 @@ in
       # kanagawa window styling
       set -g status-left "#[fg=#2a2a37,bg=#e6c384,bold] #S #[fg=#e6c384,bg=#2a2a37]"
       set -g status-left-length 30
-      set -g status-right "#[fg=#54546d]%H:%M "
+      set -g status-right "#{E:@coding-agents-tmux-status-format} #[fg=#54546d]%H:%M "
 
       # inactive windows: muted
       set -g window-status-format "#[fg=#727169] #I:#W "
@@ -309,6 +331,12 @@ in
       # new panes inherint cwd
       bind '"' split-window -c "#{pane_current_path}"
       bind %   split-window -h -c "#{pane_current_path}"
+
+      # floating lazygit (no border)
+      set -g popup-border-lines none
+      bind g display-popup -E -w 80% -h 80% -d "#{pane_current_path}" lazygit
+      # floating nvim, border matches hyprland active window border
+      bind v display-popup -E -w 80% -h 80% -d "#{pane_current_path}" -b rounded -S "fg=#e6c384" nvim
     '';
   };
 

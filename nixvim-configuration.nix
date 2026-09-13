@@ -103,6 +103,9 @@
     ];
 
     extraConfigLua = ''
+      -- Treat *.tmpl files as Go templates so treesitter highlights them
+      vim.filetype.add({ extension = { tmpl = "gotmpl" } })
+
       -- :G as a Gitsigns wrapper (overrides fugitive's :G)
       vim.api.nvim_create_user_command("G", function(opts)
         local args = vim.trim(opts.args or "")

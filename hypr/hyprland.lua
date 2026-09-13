@@ -20,7 +20,7 @@
 hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = 1 })
 
 -- Any other monitor (e.g. HDMI): use it, and turn the laptop screen off
-hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
+hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1.5 })
 
 hl.on("monitor.added", function(m)
   if m.name ~= "eDP-1" then
@@ -83,6 +83,10 @@ end)
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+
+-- Electron/Chromium apps render natively on Wayland instead of being
+-- bitmap-upscaled by XWayland on fractionally scaled outputs.
+hl.env("NIXOS_OZONE_WL", "1")
 
 
 -----------------------
