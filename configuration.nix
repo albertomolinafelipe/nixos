@@ -127,6 +127,7 @@
     };
   };
   services.blueman.enable = true;
+  services.udisks2.enable = true;
 
   # Secureframe / Fleet compliance agent lives in ./secureframe.nix (imported
   # via the flake). It uses nixpkgs' declarative services.osquery + a mitmproxy
