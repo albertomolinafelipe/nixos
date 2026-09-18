@@ -160,6 +160,24 @@ in
     };
   };
   wayland.windowManager.hyprland.systemd.enable = false;
+
+  # Owns org.freedesktop.Notifications, which kitty needs to render the
+  # OSC 99 notification pi-notify emits when a turn finishes.
+  services.mako = {
+    enable = true;
+    settings = {
+      background-color = "#1f1f28";
+      text-color = "#dcd7ba";
+      border-color = "#e6c384";
+      border-size = 2;
+      border-radius = 4;
+      font = "GohuFont 14 Nerd Font 10.5";
+      padding = "10";
+      default-timeout = 8000;
+      anchor = "top-right";
+    };
+  };
+
   services.hyprpaper = {
     enable = true;
     settings = {
@@ -282,7 +300,7 @@ in
         extraConfig = ''
           set -g @coding-agents-tmux-provider 'plugin'
           set -g @coding-agents-tmux-auto-install 'opencode,pi,codex,claude'
-          set -g @coding-agents-tmux-menu-key 'O'
+          set -g @coding-agents-tmux-menu-key 'a'
           set -g @coding-agents-tmux-popup-key 'P'
           set -g @coding-agents-tmux-waiting-menu-key 'W'
           set -g @coding-agents-tmux-waiting-popup-key 'C-w'
@@ -302,6 +320,9 @@ in
     extraConfig = ''
       # true color passthrough
       set -ag terminal-overrides ",xterm-kitty:RGB"
+
+      # let agents' OSC notification sequences reach kitty
+      set -g allow-passthrough on
 
       # kanagawa status bar background
       set -g status-style "bg=#2a2a37,fg=#dcd7ba"
@@ -368,7 +389,9 @@ in
       glo = "git log --oneline";
       lg = "lazygit";
       k9s = "k9s --readonly";
-      pi = "nhost-code";
+      # nhost-code-agent's launcher passes --no-extensions and omits
+      # coding-agents-tmux, so the pane-state extension needs an explicit -e
+      pi = "nhost-code -e $HOME/.pi/agent/extensions/coding-agents-tmux/index.ts";
     };
     initContent = "bindkey -v";
   };
