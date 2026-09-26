@@ -31,7 +31,8 @@ end)
 
 hl.on("monitor.removed", function(m)
   if m.name ~= "eDP-1" then
-    hl.monitor({ output = "eDP-1", disabled = false })
+    hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = 1, disabled = false })
+    hl.exec_cmd("hyprctl dispatch workspace 1")
   end
 end)
 

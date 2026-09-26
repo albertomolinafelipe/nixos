@@ -34,9 +34,9 @@ in
 
   home.packages = with pkgs; [
     # Internal nhost CLI
-    inputs.nhost-be.packages.${pkgs.system}.nhost-code
-    inputs.nhost-be.packages.${pkgs.system}.gha
-    inputs.nhost.packages.${pkgs.system}.ghactivity
+    inputs.nhost-be.packages.${pkgs.stdenv.hostPlatform.system}.nhost-code
+    inputs.nhost-be.packages.${pkgs.stdenv.hostPlatform.system}.gha
+    inputs.nhost.packages.${pkgs.stdenv.hostPlatform.system}.ghactivity
 
     claude-code
     gh 
@@ -92,6 +92,10 @@ in
   };
   
   xdg.configFile."hypr/hyprland.lua".source = ./hypr/hyprland.lua;
+
+  # pi-notify only fires on agent_end; this adds notifications while the agent
+  # is blocked on a prompt (ui_prompt_start).
+  home.file.".pi/agent/extensions/notify-waiting/index.ts".source = ./pi/notify-waiting.ts;
 
   programs.k9s = {
     enable = true;
@@ -166,7 +170,8 @@ in
   services.mako = {
     enable = true;
     settings = {
-      background-color = "#1f1f28";
+      background-color = "#2a2a37";
+      icons = false;
       text-color = "#dcd7ba";
       border-color = "#e6c384";
       border-size = 2;
@@ -269,10 +274,15 @@ in
     source = ./waybar/scrolling-mpris.sh;
     executable = true;
   };
+  xdg.configFile."waybar/daylog.sh" = {
+    source = ./waybar/daylog.sh;
+    executable = true;
+  };
 
   programs.kitty = {
     enable = true;
     themeFile = "kanagawa";
+    settings.enable_audio_bell = false;
     font = {
       name = "Hack Nerd Font Mono";
       size = 9;
@@ -309,11 +319,11 @@ in
           set -g @coding-agents-tmux-status-position 'right'
           set -g @coding-agents-tmux-status-interval '0'
 
-          set -g @coding-agents-tmux-status-color-neutral '#727169'
-          set -g @coding-agents-tmux-status-color-idle '#727169'
+          set -g @coding-agents-tmux-status-color-neutral '#c8c093'
+          set -g @coding-agents-tmux-status-color-idle '#c8c093'
           set -g @coding-agents-tmux-status-color-busy '#7fb4ca'
           set -g @coding-agents-tmux-status-color-waiting '#e6c384'
-          set -g @coding-agents-tmux-status-color-unknown '#54546d'
+          set -g @coding-agents-tmux-status-color-unknown '#938aa9'
         '';
       }
     ];
@@ -358,6 +368,12 @@ in
       bind g display-popup -E -w 80% -h 80% -d "#{pane_current_path}" lazygit
       # floating nvim, border matches hyprland active window border
       bind v display-popup -E -w 80% -h 80% -d "#{pane_current_path}" -b rounded -S "fg=#e6c384" nvim
+
+      # prefix-d shows running containers instead of detaching
+      unbind d
+      bind d display-popup -E -w 80% -h 80% "docker ps; read -r -s -n 1"
+
+      bind k kill-window
     '';
   };
 
@@ -391,9 +407,16 @@ in
       k9s = "k9s --readonly";
       # nhost-code-agent's launcher passes --no-extensions and omits
       # coding-agents-tmux, so the pane-state extension needs an explicit -e
-      pi = "nhost-code -e $HOME/.pi/agent/extensions/coding-agents-tmux/index.ts";
+      pi = "nhost-code -e $HOME/.pi/agent/extensions/coding-agents-tmux/index.ts -e $HOME/.pi/agent/extensions/notify-waiting/index.ts";
     };
-    initContent = "bindkey -v";
+    initContent = ''
+      bindkey -v
+
+      wtfcpu() {
+        ps -eo pid,%cpu,comm --sort=-%cpu --no-headers | head -n1 |
+          awk '{ printf "%s (pid %s) is using %s%% CPU\n", $3, $1, $2 }'
+      }
+    '';
   };
 
   programs.direnv = {

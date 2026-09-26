@@ -29,6 +29,8 @@
   "group/right": {
     "orientation": "inherit",
     "modules": [ 
+    "custom/daylog",
+    "custom/separator",
     "backlight",
     "bluetooth",
     "network",
@@ -55,6 +57,13 @@
     "restart-interval": 1,
     "align": 0,
     "justify": "left"
+  },
+  "custom/daylog": {
+    "exec": "~/.config/waybar/daylog.sh",
+    "return-type": "json",
+    "format": "{}",
+    "interval": 30,
+    "on-click": "kitty -e nvim \"$HOME/Sync/Obsidian/db_logs/days/$(date +%F).md\""
   },
   "custom/update": {
     "format": "",

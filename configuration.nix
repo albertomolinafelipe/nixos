@@ -37,6 +37,14 @@
   nix.settings = {
     trusted-users = [ "root" "alberto" ];
     experimental-features = [ "nix-command" "flakes" ];
+    # nhost-code-agent's node_modules derivation sets __noChroot
+    sandbox = "relaxed";
+  };
+
+  services.dnsmasq = {
+    enable = true;
+    settings.address = "/local.nhost.run/127.0.0.1";
+    resolveLocalQueries = true;
   };
 
   # Configure network proxy if necessary

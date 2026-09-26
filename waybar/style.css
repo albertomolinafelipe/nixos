@@ -263,3 +263,24 @@ animation: repeat;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
+
+#custom-daylog {
+  color: @fg;
+  background-color: @bg;
+  padding-right: 6px;
+}
+
+#custom-daylog.missing {
+  color: @red;
+  animation-name: blink-daylog;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink-daylog {
+  to {
+    color: @surface;
+  }
+}
