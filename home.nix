@@ -93,9 +93,6 @@ in
   
   xdg.configFile."hypr/hyprland.lua".source = ./hypr/hyprland.lua;
 
-  # pi-notify only fires on agent_end; this adds notifications while the agent
-  # is blocked on a prompt (ui_prompt_start).
-  home.file.".pi/agent/extensions/notify-waiting/index.ts".source = ./pi/notify-waiting.ts;
 
   programs.k9s = {
     enable = true;
@@ -405,9 +402,9 @@ in
       glo = "git log --oneline";
       lg = "lazygit";
       k9s = "k9s --readonly";
-      # nhost-code-agent's launcher passes --no-extensions and omits
-      # coding-agents-tmux, so the pane-state extension needs an explicit -e
-      pi = "nhost-code -e $HOME/.pi/agent/extensions/coding-agents-tmux/index.ts -e $HOME/.pi/agent/extensions/notify-waiting/index.ts";
+      # nhost-code-agent's launcher omits coding-agents-tmux, so the pane-state
+      # extension needs an explicit -e
+      pi = "nhost-code -e $HOME/.pi/agent/extensions/coding-agents-tmux/index.ts";
     };
     initContent = ''
       bindkey -v
