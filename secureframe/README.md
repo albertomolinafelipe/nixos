@@ -4,31 +4,74 @@ Results of reversing/annoying stuff to get SecureFrame to like NixOS, some
 adaptation required depending on how your system configuration is setup, but
 all the annoying work has been done already.
 
+In this repo the live version of all of this is `../secureframe.nix` (imported
+by the flake) plus `../pkgs/`. The snippets below are the portable writeup —
+if they ever disagree, the `.nix` files win.
+
 ## `extract.py`
 
 Run the extract.py script on the `.deb` you can download from SecureFrame after
 onboarding is done, keep in mind these `.deb` files are unique per device and
 this process has to be done for each.
 
-I forgot what the output of this script is so it might need some fiddling, it's
-supposed to output a nix expression for osquery.
+```sh
+python3 extract.py path/to/secureframe-agent.deb
+```
+
+It unpacks the `ar`/`tar` layers, reads `etc/default/orbit` and the packaged
+osquery flagfile, and prints a ready-to-paste `services.osquery = { ... };`
+block on stdout. The value you actually care about is `specified_identifier`
+(the `<device>:<org>:<enrollment>` triple) — that's the per-device identity.
+The enroll secret (`ORBIT_ENROLL_SECRET`) goes into sops, not into the Nix
+file. `--enroll` additionally tries to enroll straight against Fleet,
+bypassing orbit; you normally don't need it since the proxy handles enrollment.
+
+It also accepts an already-extracted directory instead of a `.deb`.
 
 ## `proxy.py`
 
 This is a MITM proxy to massage osquery to be compatible with SecureFrame's
-bullshit. It also filters out queries they don't need to be making for SOC2
-compliance in case they get nosy or who knows.
+bullshit. It does three things:
+
+- **Injects the enroll secret** into `/enroll` requests, read from the file in
+  `$SECUREFRAME_ENROLL_SECRET_FILE` (default `/run/secrets/secureframe`).
+  Enrollment breaks completely without this.
+- **Spoofs `os_version`** to Ubuntu 24.04 on distributed/write results.
+  Secureframe routes compliance scoring by `os_version.platform` and does not
+  know what NixOS is. The underlying compliance (LUKS, firewall, ClamAV,
+  screen lock) is genuine; only the distro identity is faked.
+- **Filters distributed/read** against an allowlist of osquery tables, so they
+  can't get nosy beyond what SOC2 actually needs.
+
+Note: the copy the systemd unit runs is `../pkgs/secureframe.py`. The two files
+are currently identical — if you change one, change the other (or delete this
+one and keep a single source).
+
+## `versions.toml`
+
+Pins for `../pkgs/fleetd-tables.nix`, which builds Fleet's `fleetd_tables`
+osquery extension (the `fleetd_*` tables Secureframe's distributed queries
+reference). It is not in nixpkgs, hence the local derivation. Bump `rev`,
+`srcHash` and `vendorHash` here — `versions.nix` just reads the TOML.
 
 ## configuration.nix
 
 Bunch of configuration needed to actually be SOC2 compliant.
 
 ```nix
-{ pkgs, lib, ... }:
+{ config, lib, pkgs, ... }:
+let
+  fleetd-tables = pkgs.callPackage ./pkgs/fleetd-tables.nix { };
+
+  # Per-device, from extract.py. Regenerate for each machine.
+  specifiedIdentifier =
+    "449b428c-f163-4869-9bf5-5afe38fd000d:10db8ecb-30d0-4747-931a-0c40f59d6540:ea7dfb35-6d2c-4868-bb26-e51957ceecaa";
+
+  upstream = "agent-uk.secureframe.com:443";
+in
 {
   security.protectKernelImage = true;
   security.polkit.enable = true;
-  security.nixsecauditor.enable = true;
   security.auditd.enable = false;
   security.audit.enable = false;
   security.audit.rules = [
@@ -74,7 +117,7 @@ Bunch of configuration needed to actually be SOC2 compliant.
   services.osquery = {
     enable = true;
     flags = {
-      extensions_autoload = "${pkgs.writeText "osquery-extensions.load" "${pkgs.fleetd-tables}/bin/fleetd_tables.ext"}";
+      extensions_autoload = "${pkgs.writeText "osquery-extensions.load" "${fleetd-tables}/bin/fleetd_tables.ext"}";
       extensions_timeout = "10";
       allow_unsafe = "true";
       config_plugin = "tls";
@@ -89,27 +132,29 @@ Bunch of configuration needed to actually be SOC2 compliant.
       logger_plugin = "tls";
       logger_tls_endpoint = "/api/v1/osquery/log";
       logger_tls_period = "10";
-      specified_identifier = "5458a3a0-f94a-43ca-9882-e4c1331b53e3:10db8ecb-30d0-4747-931a-0c40f59d6540:bbb7be3d-9ce9-4b8c-a9a8-dfbda8704f2a";
+      specified_identifier = specifiedIdentifier;
       tls_hostname = "127.0.0.1:4443";
       tls_server_certs = "/var/lib/osquery-proxy/mitmproxy-ca-cert.pem";
     };
   };
 
   # Need a running MITM proxy to make things actually work, especially enrollment
-  # breaks completely without this.
+  # breaks completely without this. The enroll secret is handed to the script
+  # by path, never through the store.
   systemd.services.osquery-proxy = {
     description = "mitmproxy reverse proxy for osqueryd to Secureframe";
     wantedBy = [ "multi-user.target" ];
     before = [ "osqueryd.service" ];
+    environment.SECUREFRAME_ENROLL_SECRET_FILE = config.sops.secrets.secureframe.path;
     serviceConfig = {
       StateDirectory = "osquery-proxy";
       ExecStart = ''
         ${pkgs.mitmproxy}/bin/mitmdump \
           --set confdir=/var/lib/osquery-proxy \
-          --mode reverse:https://agent-uk.secureframe.com:443 \
+          --mode reverse:https://${upstream} \
           --listen-port 4443 \
           --ssl-insecure \
-          -s ${../../pkgs/secureframe.py}
+          -s ${./pkgs/secureframe.py}
       '';
       Restart = "on-failure";
       RestartSec = 5;
@@ -170,6 +215,7 @@ Bunch of configuration needed to actually be SOC2 compliant.
 
   # Please use sops for your secret management, if you don't I will cry.
   sops = {
+    age.keyFile = "/var/lib/sops-nix/key.txt";
     secrets.secureframe = {
       sopsFile = ./secrets/secureframe.yaml;
       format = "yaml";
@@ -180,33 +226,39 @@ Bunch of configuration needed to actually be SOC2 compliant.
 }
 ```
 
+## `home-manager.nix`
 
-# `home-manager.nix`
+SOC2 requires a 15-minute inactivity lock. Obviously if you aren't using
+Hyprland, configure whatever idle daemon your setup has.
 
 ```nix
 { pkgs, lib, ... }:
 {
-  # Obviously if you aren't using Noctalia, change the settings for whatever
-  # you use, SOC2 requires this.
-  programs.noctalia = {
+  # SOC2: 15-minute inactivity auto-lock and screen-off. Do not relax the
+  # timeouts without a compliance review.
+  services.hypridle = {
+    enable = true;
     settings = {
-      # SOC2: 15-minute inactivity auto-lock and screen-off. Do not relax
-      # without compliance review. Runtime edits in the Settings UI will
-      # override these via state-dir settings.toml — keep declarative as
-      # the floor.
-      idle.behavior.lock = {
-        enabled = true;
-        timeout = 15 * 60;
-        command = "noctalia:session lock";
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock";
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
       };
-      idle.behavior."screen-off" = {
-        enabled = true;
-        timeout = 15 * 60;
-        command = "noctalia:dpms-off";
-        resume_command = "noctalia:dpms-on";
-      };
+      listener = [
+        {
+          timeout = 15 * 60;
+          on-timeout = "loginctl lock-session";
+        }
+        {
+          timeout = 15 * 60;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+      ];
     };
   };
+
+  programs.hyprlock.enable = true;
 }
 ```
 
@@ -215,3 +267,7 @@ Bunch of configuration needed to actually be SOC2 compliant.
 The enrollment key is stored in a sops file with `<hostname>: <enrollment
 key>`, this allows to keep multiple devices on secureframe without being
 annoying. But this does mean you gotta setup sops-nix ;^)
+
+The age key lives at `/var/lib/sops-nix/key.txt`, root-owned and outside the
+Nix store. Install it once per machine before the first rebuild, otherwise
+activation fails on decryption.
