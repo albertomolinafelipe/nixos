@@ -360,11 +360,14 @@ in
       bind '"' split-window -c "#{pane_current_path}"
       bind %   split-window -h -c "#{pane_current_path}"
 
+      # vim-style split names: v splits side-by-side, h stacks
+      # (tmux's own -h/-v flags mean the opposite, hence the swap)
+      bind v split-window -h -c "#{pane_current_path}"
+      bind h split-window -v -c "#{pane_current_path}"
+
       # floating lazygit (no border)
       set -g popup-border-lines none
       bind g display-popup -E -w 80% -h 80% -d "#{pane_current_path}" lazygit
-      # floating nvim, border matches hyprland active window border
-      bind v display-popup -E -w 80% -h 80% -d "#{pane_current_path}" -b rounded -S "fg=#e6c384" nvim
 
       # prefix-d shows running containers instead of detaching
       unbind d
