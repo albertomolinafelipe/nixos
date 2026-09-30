@@ -240,6 +240,10 @@
           jsonls.enable = true; # json
           graphql.enable = true; # graphql
           sqls.enable = true; # sql
+          terraformls.enable = true; # terraform/opentofu
+          # No terragrunt language server exists upstream; terraform-ls only
+          # claims *.tf/*.tfvars, so terragrunt.hcl gets plain hcl treatment.
+          autotools_ls.enable = true; # make/automake/autoconf
         };
         keymaps = {
           lspBuf = {

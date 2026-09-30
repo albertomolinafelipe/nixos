@@ -16,6 +16,27 @@ let
     printf '%s' "$dir"
   '';
   starshipDirShell = [ "bash" "--noprofile" "--norc" ];
+
+  nhostCode = inputs.nhost-be.packages.${pkgs.stdenv.hostPlatform.system}.nhost-code;
+  # pi-subagents runs foreground children with `noExtensions`, so pi-claude-bridge
+  # never loads inside them and never records their system prompt in its
+  # prompt-capture map. The child's query still reaches the parent's bridge
+  # instance (providers are inherited), which refuses an unknown prompt rather
+  # than silently dropping that turn's context files and instructions — so every
+  # foreground subagent on a claude-bridge model dies with "prompt-capture: no
+  # capture for this N-char system prompt". Loading the bridge as a child-only
+  # extension restores the capture. The setting itself lives in
+  # ~/.pi/agent/settings.json (subagents.defaultSubagentOnlyExtensions); pi
+  # rewrites that file, so home-manager can't own it, and it points at the stable
+  # symlink below instead of a version-pinned store path.
+  # `nhost-code` is a wrapper around a separate nhost-code-agent store path that
+  # the flake does not expose as an output, so dig it out of the launcher.
+  piClaudeBridgeExtension = pkgs.runCommand "pi-claude-bridge-extension" { } ''
+    agent=$(grep -om1 '/nix/store/[^ "]*-nhost-code-agent-[^/ "]*' ${nhostCode}/bin/nhost-code)
+    ext="$agent/libexec/pi/node_modules/pi-claude-bridge/src/index.ts"
+    test -f "$ext"
+    ln -s "$ext" $out
+  '';
 in
 {
   imports = [
@@ -92,6 +113,10 @@ in
   };
   
   xdg.configFile."hypr/hyprland.lua".source = ./hypr/hyprland.lua;
+
+  # Referenced by subagents.defaultSubagentOnlyExtensions in
+  # ~/.pi/agent/settings.json — see piClaudeBridgeExtension above.
+  home.file.".pi/agent/ext/claude-bridge.ts".source = piClaudeBridgeExtension;
 
 
   programs.k9s = {
