@@ -118,6 +118,13 @@ in
   # ~/.pi/agent/settings.json — see piClaudeBridgeExtension above.
   home.file.".pi/agent/ext/claude-bridge.ts".source = piClaudeBridgeExtension;
 
+  # Global pi context file (loaded from the agent dir before any project
+  # AGENTS.md): turns the caveman skill below on by default and carves out the
+  # nhost-* skills, whose artifacts are read by other people.
+  home.file.".pi/agent/AGENTS.md".source = ./pi/AGENTS.md;
+  # Vendored from github.com/JuliusBrussee/caveman (plugins/caveman/skills).
+  home.file.".pi/agent/skills/caveman".source = ./pi/skills/caveman;
+
 
   programs.k9s = {
     enable = true;
