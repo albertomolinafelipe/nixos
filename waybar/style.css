@@ -106,6 +106,9 @@ button:hover {
 #custom-mpris,
 #memory,
 #cpu,
+#temperature,
+#temperature.gpu,
+#temperature.nvme,
 #battery,
 #network,
 #backlight,
@@ -145,6 +148,9 @@ button:hover {
 #mpris,
 #memory,
 #cpu,
+#temperature,
+#temperature.gpu,
+#temperature.nvme,
 #battery,
 #network,
 #backlight,
@@ -157,6 +163,15 @@ button:hover {
 #memory,
 #cpu {
 min-width: 45px;
+}
+
+#temperature {
+  min-width: 40px;
+  padding: 0 4px;
+}
+
+#temperature.critical {
+  color: #ff5f94;
 }
 
 tooltip {
