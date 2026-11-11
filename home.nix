@@ -17,6 +17,7 @@ let
   '';
   starshipDirShell = [ "bash" "--noprofile" "--norc" ];
 
+  # nhostCode = inputs.nhost-be.packages.${pkgs.stdenv.hostPlatform.system}.nhost-code;
   nhostCode = inputs.nhost-be.packages.${pkgs.stdenv.hostPlatform.system}.nhost-code;
   # pi-subagents runs foreground children with `noExtensions`, so pi-claude-bridge
   # never loads inside them and never records their system prompt in its
@@ -55,7 +56,7 @@ in
 
   home.packages = with pkgs; [
     # Internal nhost CLI
-    inputs.nhost-be.packages.${pkgs.stdenv.hostPlatform.system}.nhost-code
+    nhostCode
     inputs.nhost-be.packages.${pkgs.stdenv.hostPlatform.system}.gha
     inputs.nhost.packages.${pkgs.stdenv.hostPlatform.system}.ghactivity
 
@@ -85,6 +86,7 @@ in
     htop
     eza
     ripgrep
+    wl-clipboard
     lazygit
     gnumake
     kubectl

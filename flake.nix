@@ -7,6 +7,7 @@
     # Internal nhost backend flake (local checkout, tracks its main branch).
     # Bump the pinned revision with: nix flake update nhost-be
     nhost-be.url = "git+file:///home/alberto/code/be/main";
+    nhost-test.url = "git+file:///home/alberto/code/be/nhost-code-improvements";
     nhost.url = "git+file:///home/alberto/code/nhost/main";
     sops-nix = {
       url = "github:Mic92/sops-nix";
