@@ -401,6 +401,11 @@ in
       bind v split-window -h -c "#{pane_current_path}"
       bind h split-window -v -c "#{pane_current_path}"
 
+      # tmux 3.8 added builtin light/dark themes (theme=detect by default)
+      # that repaint popups and modes with tmux's own palette instead of
+      # kitty's Kanagawa ANSI colours; "terminal" restores pre-3.8 behaviour
+      set -g theme terminal
+
       # floating lazygit (no border)
       set -g popup-border-lines none
       bind g display-popup -E -w 80% -h 80% -d "#{pane_current_path}" lazygit
