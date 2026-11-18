@@ -19,7 +19,6 @@
   transition: background-color .3s ease-out;
   }
 
-
 /* --- Waybar ---*/
 window#waybar {
   background-color: transparent;
@@ -99,7 +98,6 @@ button:hover {
   opacity: 1;
 }
 
-
 /* --- General Modules --- */
 
 #tray,
@@ -111,7 +109,6 @@ button:hover {
 #temperature.nvme,
 #battery,
 #network,
-#backlight,
 #bluetooth,
 #pulseaudio,
 #custom-idle-indicator,
@@ -135,11 +132,6 @@ button:hover {
   color: @fg;
 }
 
-#backlight {
-  padding-right: 0px;
-  padding-left: 6px;
-}
-
 #bluetooth {
   padding-left: 0px;
 }
@@ -153,7 +145,6 @@ button:hover {
 #temperature.nvme,
 #battery,
 #network,
-#backlight,
 #bluetooth,
 #pulseaudio {
   padding: 0 6px;
@@ -282,7 +273,7 @@ animation: repeat;
 #custom-daylog {
   color: @fg;
   background-color: @bg;
-  padding-right: 6px;
+  padding: 0 6px;
 }
 
 #custom-daylog.missing {

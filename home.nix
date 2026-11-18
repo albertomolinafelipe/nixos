@@ -62,7 +62,9 @@ in
 
     claude-code
     gh 
-    awscli
+    # awscli (v1) fails its runtime-deps check on current nixpkgs (it pins an
+    # older botocore than nixpkgs ships); v2 is the maintained CLI anyway.
+    awscli2
 
     firefox
     spotify

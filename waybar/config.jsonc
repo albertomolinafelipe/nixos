@@ -18,6 +18,8 @@
     "custom/updatespacman",
     "tray",
     "custom/separator",
+    "custom/daylog",
+    "custom/separator#4",
     "hyprland/workspaces"
   ],
   "modules-center": [
@@ -29,9 +31,6 @@
   "group/right": {
     "orientation": "inherit",
     "modules": [ 
-    "custom/daylog",
-    "custom/separator",
-    "backlight",
     "bluetooth",
     "network",
     "pulseaudio",
@@ -62,6 +61,10 @@
     "tooltip": false
 },
 "custom/separator#3": {
+    "format": "|",
+    "tooltip": false
+},
+"custom/separator#4": {
     "format": "|",
     "tooltip": false
 },
@@ -129,16 +132,11 @@
     "on-click": "omarchy-launch-or-focus-tui btop",
       "format-icons": [
       "<span size='8pt'>━</span>",
-      "<span size='8pt'>■</span>",
-      "<span size='8pt' color='#ff79d2'>■■</span>",
-      "<span size='8pt' color='#ff6fbe'>■■■</span>",
-      "<span size='8pt' color='#ff66a9'>■■■■</span>",
-      "<span size='8pt' color='#ff5f94'>■■■■■</span>",
-      "<span size='8pt' color='#ff5b7e'>■■■■■■</span>",
-      "<span size='8pt' color='#fe5968'>■■■■■■■</span>",
-      "<span size='8pt' color='#f65a52'>■■■■■■■■</span>",
-      "<span size='8pt' color='#ec5d3c'>■■■■■■■■■</span>",
-      "<span size='8pt' color='#df6124'>■■■■■■■■■■</span>"
+      "<span size='8pt' color='#ff79d2'>■</span>",
+      "<span size='8pt' color='#ff66a9'>■■</span>",
+      "<span size='8pt' color='#ff5b7e'>■■■</span>",
+      "<span size='8pt' color='#f65a52'>■■■■</span>",
+      "<span size='8pt' color='#df6124'>■■■■■</span>"
     ]
   },
   // Each temperature module carries its own glyph (chip / GPU / drive) rather
@@ -193,16 +191,11 @@
     "on-click": "omarchy-launch-or-focus-tui btop",
       "format-icons": [
       "<span size='8pt'>━</span>",
-      "<span size='8pt'>■</span>",
-      "<span size='8pt' color='#f7b69a'>■■</span>",
-      "<span size='8pt' color='#ef9875'>■■■</span>",
-      "<span size='8pt' color='#e77b50'>■■■■</span>",
-      "<span size='8pt' color='#df6124'>■■■■■</span>",
-      "<span size='8pt' color='#d35720'>■■■■■■</span>",
-      "<span size='8pt' color='#c64e1c'>■■■■■■■</span>",
-      "<span size='8pt' color='#aa4318'>■■■■■■■■</span>",
-      "<span size='8pt' color='#8e3813'>■■■■■■■■■</span>",
-      "<span size='8pt' color='#722d0f'>■■■■■■■■■■</span>"
+      "<span size='8pt' color='#f7b69a'>■</span>",
+      "<span size='8pt' color='#e77b50'>■■</span>",
+      "<span size='8pt' color='#d35720'>■■■</span>",
+      "<span size='8pt' color='#aa4318'>■■■■</span>",
+      "<span size='8pt' color='#722d0f'>■■■■■</span>"
     ]
   },
   "clock": {
@@ -224,8 +217,10 @@
   "network": {
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
     "format": "{icon}",
-    "format-wifi": "{icon} {signalStrength}%",
-    "format-ethernet": "󰈀 {bandwidthDownBytes:=}",
+    // The :> spec pads the rates to a fixed width so the bar doesn't jitter
+    // every time a value changes length.
+    "format-wifi": "{icon} {signalStrength}% ⇣{bandwidthDownBytes:>} ⇡{bandwidthUpBytes:>}",
+    "format-ethernet": "󰈀 ⇣{bandwidthDownBytes:>} ⇡{bandwidthUpBytes:>}",
     "format-disconnected": "󰤮",
     "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
@@ -242,29 +237,19 @@
     "format-icons": {
       "charging": [
        "󰢜 <span size='8pt' color='#df6124'>━</span>",
-       "󰢜 <span size='8pt' color='#df6124'>■</span>",
-       "󰂆 <span size='8pt' color='#dd7006'>■■</span>",
-       "󰂇 <span size='8pt' color='#d88000'>■■■</span>",
-       "󰂈 <span size='8pt' color='#d09000'>■■■■</span>",
-       "󰢝 <span size='8pt' color='#c5a000'>■■■■■</span>",
-       "󰂉 <span size='8pt' color='#b5af00'>■■■■■■</span>",
-       "󰢞 <span size='8pt' color='#a2be00'>■■■■■■■</span>",
-       "󰂊 <span size='8pt' color='#8acc00'>■■■■■■■■</span>",
-       "󰂋 <span size='8pt' color='#68da00'>■■■■■■■■■</span>",
-       "󰂅 <span size='8pt' color='#25e712'>■■■■■■■■■■</span>"
+       "󰂆 <span size='8pt' color='#dd7006'>■</span>",
+       "󰂈 <span size='8pt' color='#d09000'>■■</span>",
+       "󰂉 <span size='8pt' color='#b5af00'>■■■</span>",
+       "󰂊 <span size='8pt' color='#8acc00'>■■■■</span>",
+       "󰂅 <span size='8pt' color='#25e712'>■■■■■</span>"
       ],
       "default": [
       "󰁺 <span size='8pt' color='#df6124'>━</span>",
-      "󰁺 <span size='8pt' color='#df6124'>■</span>",
-      "󰁻 <span size='8pt' color='#dd7006'>■■</span>",
-      "󰁼 <span size='8pt' color='#d88000'>■■■</span>",
-      "󰁽 <span size='8pt' color='#d09000'>■■■■</span>",
-      "󰁾 <span size='8pt' color='#c5a000'>■■■■■</span>",
-      "󰁿 <span size='8pt' color='#b5af00'>■■■■■■</span>",
-      "󰂀 <span size='8pt' color='#a2be00'>■■■■■■■</span>",
-      "󰂁 <span size='8pt' color='#8acc00'>■■■■■■■■</span>",
-      "󰂂 <span size='8pt' color='#68da00'>■■■■■■■■■</span>",
-      "󰁹 <span size='8pt' color='#25e712'>■■■■■■■■■■</span>"
+      "󰁻 <span size='8pt' color='#dd7006'>■</span>",
+      "󰁽 <span size='8pt' color='#d09000'>■■</span>",
+      "󰁿 <span size='8pt' color='#b5af00'>■■■</span>",
+      "󰂁 <span size='8pt' color='#8acc00'>■■■■</span>",
+      "󰁹 <span size='8pt' color='#25e712'>■■■■■</span>"
       ]
     },
     "format-full": "󰂅",
@@ -299,19 +284,6 @@
       "default": ["", "", ""]
     }
   },
-  "backlight": {
-        "device": "intel_backlight",
-        "rotate": 0,
-        "format": "{icon} {percent}%",
-        "tooltip-format": "🌕 {percent}%",
-        "format-icons": [
-      "󰃜",
-      "󰃝",
-      "󰃞",
-      "󰃟",
-      "󰃠"
-    ]
-   },
   "tray": {
     "icon-size": 12,
     "spacing": 5
