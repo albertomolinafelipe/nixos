@@ -16,7 +16,6 @@ declarative Secureframe/SOC2 compliance layer.
 | `secureframe.nix` | Compliance module (osquery + mitmproxy + SOC2 hardening). Imported directly by the flake. |
 | `secureframe/` | Docs + tooling for the above: `README.md`, `extract.py`, `proxy.py`, `versions.toml`/`versions.nix`. |
 | `pkgs/` | Local derivations (`coding-agents-tmux.nix`, `fleetd-tables.nix`) and `secureframe.py`, the proxy script the systemd unit actually runs. |
-| `pi/` | Pi coding-agent config deployed to `~/.pi/agent` by `home.nix`: global `AGENTS.md` context file and the vendored `skills/caveman` skill. |
 | `hypr/hyprland.lua` | Hyprland config in Lua, symlinked to `~/.config/hypr/hyprland.lua`. Not managed by the home-manager hyprland module (`systemd.enable = false`). |
 | `waybar/` | `config.jsonc`, `style.css`, and helper scripts, symlinked into `~/.config/waybar`. |
 | `secrets/secureframe.yaml` | sops-encrypted, keyed per hostname. |
@@ -56,16 +55,10 @@ The tree is a git repo and the flake is `git+file:`, so **new files must be
 - Third-party sources are pinned by rev + hash. `fleetd-tables` reads
   `secureframe/versions.toml`; bump versions there, not in the `.nix`.
 
-## Pi agent config (`pi/`, `home.nix`)
+## Pi agent config (`home.nix`)
 
-`home.nix` writes three things into `~/.pi/agent` with `home.file`:
+`home.nix` writes one thing into `~/.pi/agent` with `home.file`:
 
-- `AGENTS.md` ← `pi/AGENTS.md`. Global pi context, loaded before any project
-  `AGENTS.md`. Enables the caveman output style by default and exempts the
-  `nhost-*` skills, whose artifacts other people read.
-- `skills/caveman` ← `pi/skills/caveman`. Vendored from
-  github.com/JuliusBrussee/caveman (`plugins/caveman/skills`). Update by
-  re-copying, not by editing upstream in place.
 - `ext/claude-bridge.ts` ← the `piClaudeBridgeExtension` derivation, which digs
   `pi-claude-bridge/src/index.ts` out of the `nhost-code-agent` store path by
   grepping the `nhost-code` launcher (the flake doesn't expose the agent as an
